@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matrículas UNA PUNO: Análisis de Capa 4</title>
+<style>
+  /* Paleta y Tipografía - Estilo Editorial y Minimalista (Cero Dark Mode) */
+  :root {
+    --bg-page: #f8fafc; 
+    --bg-slide: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #475569;
+    --una-blue: #1e3a8a;
+    --una-gold: #b45309;
+    --accent: #2563eb;
+    --danger: #dc2626;
+    --warning: #d97706;
+    --success: #16a34a;
+    --border-light: #e2e8f0;
+  }
+  
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  /* Contenedor Principal de la Presentación */
+  #deck {
+    position: relative;
+    width: 92vw;
+    max-width: 1400px;
+    height: 88vh;
+    background: var(--bg-slide);
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.02);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-light);
+  }
+
+  /* Diapositivas */
+  .slide {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    padding: 60px 80px 90px 80px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    transform: translateY(15px);
+    display: flex;
+    flex-direction: column;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  /* Tipografía */
+  .badge-category {
+    align-self: flex-start;
+    background: #ffffff;
+    color: var(--una-blue);
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border-light);
+  }
+  h1 { font-size: 3.5rem; line-height: 1.1; margin: 0 0 1.5rem; color: var(--una-blue); font-weight: 800; letter-spacing: -1px; }
+  h2 { font-size: 2.4rem; margin: 0 0 1rem; color: var(--text-main); font-weight: 700; letter-spacing: -0.5px; }
+  h3 { font-size: 1.4rem; margin: 0 0 0.8rem; color: var(--una-blue); font-weight: 700; }
+  p, li { font-size: 1.2rem; line-height: 1.6; color: var(--text-muted); margin-bottom: 15px;}
+  ul { margin-top: 5px; padding-left: 25px; }
+  
+  /* Layouts */
+  .layout-split {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 60px;
+    flex-grow: 1;
+    align-items: center;
+  }
+  .layout-split-even {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    flex-grow: 1;
+  }
+  .layout-3col {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 1rem;
+  }
+  
+  /* Imágenes */
+  .image-container {
+    width: 100%;
+    height: 100%;
+    min-height: 380px;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--border-light);
+  }
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: contrast(1.05) brightness(0.95);
+  }
+
+  /* Tarjetas y Cajas Blancas/Claras */
+  .card {
+    background: #ffffff;
+    border: 1px solid var(--border-light);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+  }
+  .highlight-box {
+    background: #f8fafc;
+    border-left: 4px solid var(--una-blue);
+    padding: 18px 25px;
+    margin: 20px 0;
+    font-weight: 500;
+    color: var(--una-blue);
+    font-size: 1.25rem;
+    border-right: 1px solid var(--border-light);
+    border-top: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+  }
+  
+  /* Código estilo Editorial Claro (Sin Dark Mode) */
+  .code-box {
+    background: #f1f5f9;
+    color: var(--text-main);
+    font-family: 'Courier New', Courier, monospace;
+    padding: 20px;
+    border-radius: 6px;
+    font-size: 1.05rem;
+    margin-top: 15px;
+    line-height: 1.6;
+    overflow-x: auto;
+    border: 1px solid var(--border-light);
+  }
+
+  /* Controles Inferiores */
+  .footer-controls {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 75px;
+    background: #ffffff;
+    border-top: 1px solid var(--border-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px;
+    z-index: 10;
+  }
+  .footer-controls .branding { font-size: 0.95rem; font-weight: 700; color: #94a3b8; letter-spacing: 1px; }
+  .btn-nav {
+    background: #ffffff;
+    border: 1px solid var(--border-light);
+    color: var(--text-main);
+    padding: 10px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.2s;
+  }
+  .btn-nav:hover { background: #f1f5f9; border-color: #cbd5e1; }
+  
+  .progress-bar-container {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: #f1f5f9;
+    z-index: 20;
+  }
+  .progress-bar { height: 100%; background: var(--una-blue); width: 0%; transition: width 0.3s ease; }
+
+  /* Elementos del Simulador */
+  .sim-panel {
+    background: #ffffff;
+    border: 1px solid var(--border-light);
+    padding: 40px;
+    border-radius: 8px;
+  }
+  .slider-container { margin: 30px 0; }
+  input[type=range] { width: 100%; accent-color: var(--una-blue); cursor: pointer; height: 6px; }
+  .sim-metrics { display: flex; justify-content: space-between; margin-top: 30px; padding: 20px; background: #ffffff; border-radius: 6px; border: 1px solid var(--border-light); }
+  .sim-metric { text-align: center; }
+  .sim-metric span { display: block; font-size: 0.95rem; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;}
+  .sim-metric strong { font-size: 3rem; color: var(--una-blue); font-weight: 800; line-height: 1; font-family: monospace; }
+  .port-visualizer { display: grid; grid-template-columns: repeat(25, 1fr); gap: 4px; margin-top: 30px; }
+  .port-dot { height: 16px; background: #e2e8f0; border-radius: 2px; transition: background 0.2s; }
+  .port-dot.used { background: var(--danger); }
+  .port-dot.wait { background: var(--warning); }
+  .sim-alert { margin-top: 25px; padding: 18px; border-radius: 6px; font-weight: 600; text-align: center; border: 1px solid transparent; font-size: 1.15rem; transition: all 0.3s;}
+
+</style>
+</head>
+<body>
+
+<div id="deck">
+  <div class="progress-bar-container"><div class="progress-bar" id="progress"></div></div>
+
+  <!-- SLIDE 1: PORTADA -->
+  <div class="slide active">
+    <div class="layout-split">
+      <div style="padding-right: 20px;">
+        <div class="badge-category">Administración de Redes - VII Ciclo</div>
+        <h1 style="font-size: 3.8rem;">El Colapso de la Medianoche</h1>
+        <p style="font-size: 1.4rem; margin-bottom: 2.5rem; color: var(--text-main);">Análisis técnico de la <b>Capa 4 (Transporte)</b> y el fenómeno de <i>Port Exhaustion</i> durante las matrículas de la Universidad Nacional del Altiplano.</p>
+        <div style="border-top: 1px solid var(--border-light); padding-top: 1.5rem;">
+          <h3 style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px;">Equipo de Investigación</h3>
+          <p style="margin: 0; font-weight: 700; color: var(--una-blue); font-size: 1.3rem;">
+            Alex Arias R. &nbsp;•&nbsp; Raul Chura C. &nbsp;•&nbsp; Antony Flores N.
+          </p>
+        </div>
+      </div>
+      <div class="image-container">
+        <!-- Imagen clara de un cuarto de servidores blanco/gris -->
+        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Data Center Limpio">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: TEORÍA 1 - SOCKETS Y PUERTOS -->
+  <div class="slide">
+    <div class="badge-category">1. Teoría de la Capa 4</div>
+    <h2>Multiplexación y Direccionamiento Lógico</h2>
+    <div class="layout-split-even">
+      <div>
+        <p>Mientras la Capa 3 (Red) enruta paquetes entre servidores, la <b>Capa 4 (Transporte)</b> es responsable de la comunicación extremo a extremo entre los <b>procesos de las aplicaciones</b>.</p>
+        <ul>
+          <li><b>Multiplexación mediante Sockets:</b> Permite que un solo servidor maneje simultáneamente miles de conexiones, estructurando el tráfico a través de puertos lógicos (0 - 65535).</li>
+          <li><b>Elección del Protocolo:</b> En un sistema de matrícula, la Capa 4 utiliza obligatoriamente <b>TCP</b> para garantizar la fiabilidad absoluta de los datos (evitando UDP).</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>La Cuádrupla TCP (El Identificador)</h3>
+        <p>El Kernel de Linux del servidor web de la UNA Puno distingue a cada estudiante mediante un <i>socket pair</i> o <b>Cuádrupla TCP</b>:</p>
+        <div class="code-box">
+          { IP_Estudiante, <span style="color: var(--una-blue); font-weight:bold;">Puerto_Efímero</span>, <br>
+            IP_Servidor_UNA, Puerto_443 }
+        </div>
+        <p style="margin-top: 15px; font-size: 1.05rem;">Si una residencia universitaria entera sale a Internet por la misma IP Pública (NAT), <b>la única variable que el servidor usa para distinguir a los alumnos es el Puerto Efímero</b>. Esto convierte a los puertos en un recurso finito crítico.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: TEORÍA 2 - SEGMENTACIÓN Y FLAGS (NUEVA DIAPOSITIVA) -->
+  <div class="slide">
+    <div class="badge-category">1. Teoría de la Capa 4</div>
+    <h2>Segmentación y Banderas de Control (Flags TCP)</h2>
+    <div class="layout-split">
+      <div>
+        <p>En la Capa 4, el flujo continuo de datos de la página web se divide en bloques manejables llamados <b>Segmentos</b>. A cada segmento se le añade un encabezado TCP (de 20 a 60 bytes).</p>
+        <p>El mecanismo que permite al servidor saber en qué estado se encuentra la matrícula de un alumno son las <b>Banderas de Control (Flags)</b>, bits específicos dentro del encabezado TCP.</p>
+      </div>
+      <div class="card" style="border-left: 4px solid var(--una-blue);">
+        <h3 style="margin-bottom: 15px;">Flags críticas en nuestro caso:</h3>
+        <ul style="list-style: none; padding-left: 0;">
+          <li style="margin-bottom: 12px;"><b>[SYN] Synchronize:</b> Inicia el establecimiento de la sesión. Un estudiante pidiendo entrar.</li>
+          <li style="margin-bottom: 12px;"><b>[ACK] Acknowledgment:</b> Confirma la recepción de un segmento (vital para no perder la inscripción del curso).</li>
+          <li style="margin-bottom: 12px;"><b>[FIN] Finish:</b> Solicita el cierre ordenado y formal de la conexión.</li>
+          <li><b style="color: var(--danger);">[RST] Reset:</b> Aborta la conexión inmediatamente por error o saturación (el error que ven los alumnos).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: PROBLEMÁTICA 1 - 12:00 AM -->
+  <div class="slide">
+    <div class="badge-category">2. Planteamiento del Caso</div>
+    <h2>El Contexto Crítico: Las 12:00 AM</h2>
+    <div class="layout-split">
+      <div class="image-container" style="min-height: 380px;">
+        <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Estudiante programando de noche">
+      </div>
+      <div style="padding-left: 10px;">
+        <p>El diseño del proceso de matrícula exige que todos los estudiantes compitan por vacantes exactamente a la misma hora: <b>la medianoche</b>.</p>
+        <p>A las 12:00 AM en punto, miles de estudiantes inician sesiones simultáneas. La Capa 4 del servidor debe procesar un <b>Three-Way Handshake (SYN ➔ SYN-ACK ➔ ACK)</b> por cada recurso web que el navegador solicita.</p>
+        <div class="highlight-box">
+          <b>El Comportamiento de Estrés (F5):</b><br>
+          Ante la menor latencia, el estudiante asume un cuelgue y presiona F5 repetidamente. Esto genera ráfagas masivas de nuevos paquetes SYN, multiplicando el tráfico lógico exponencialmente.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: PROBLEMÁTICA 2 - TIME_WAIT -->
+  <div class="slide">
+    <div class="badge-category">2. Planteamiento del Caso</div>
+    <h2>La Máquina de Estados TCP: El limbo de TIME_WAIT</h2>
+    <div class="layout-split-even">
+      <div>
+        <p>El problema no radica en abrir conexiones, sino en cerrarlas. Al recargar la página (F5), el sistema debe ejecutar un <b>Teardown de 4 vías (FIN, ACK, FIN, ACK)</b>.</p>
+        <p>Sin embargo, la Capa 4 del OS <b>NO libera el socket inmediatamente</b>. La conexión ingresa al estado <code>TIME_WAIT</code> (por aprox. 60 segundos).</p>
+        
+        <h3 style="margin-top: 20px;">¿Por qué TCP exige esta espera?</h3>
+        <ul>
+          <li>Garantiza que el último ACK enviado llegó al otro extremo.</li>
+          <li>Evita que paquetes antiguos "retrasados" en la red corrompan la sesión de un futuro estudiante que reciba ese mismo puerto efímero.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Diagnóstico en el Servidor</h3>
+        <p style="font-size: 1.05rem;">Al ejecutar comandos de red en pleno colapso, el administrador de la UNA observará una tabla de conexiones saturada por "sesiones fantasma":</p>
+        <div class="code-box">
+          ~$ ss -tan | awk '{print $1}' | uniq -c<br><br>
+          &nbsp;&nbsp; 842 ESTABLISHED<br>
+          &nbsp;&nbsp;&nbsp; 41 SYN_RECV<br>
+          <span style="color: var(--danger); font-weight: bold;"> 28540 TIME_WAIT</span>
+        </div>
+        <p style="margin-top: 15px; font-size: 1.05rem; color: var(--text-muted);">Los puertos efímeros están bloqueados temporalmente por el temporizador de TCP.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: PROBLEMÁTICA 3 - PORT EXHAUSTION -->
+  <div class="slide">
+    <div class="badge-category">2. Planteamiento del Caso</div>
+    <h2>Port Exhaustion (Agotamiento de Puertos)</h2>
+    <div class="layout-split">
+      <div class="card" style="border-top: 4px solid var(--danger);">
+        <h3 style="color: var(--danger);">El Colapso Técnico (Capa 4)</h3>
+        <p>Un sistema Linux genérico dispone de un rango limitado de puertos efímeros (aprox. 28,000).</p>
+        <p>Cuando la suma de conexiones <code>ESTABLISHED</code> y las retenidas en <code>TIME_WAIT</code> alcanzan este tope, <b>la Capa de Transporte agota sus recursos de direccionamiento</b>. El Kernel se ve obligado a rechazar silenciosamente los nuevos paquetes SYN o devolver un <code>RST</code>.</p>
+      </div>
+      <div>
+        <h3>Impacto directo en el Estudiante</h3>
+        <ul style="line-height: 1.8;">
+          <li>El navegador arroja errores de <b>Connection Timeout</b> o la carga se congela indefinidamente.</li>
+          <li>El servidor físico de la universidad NO está caído (CPU y RAM operan normal), pero <b>a nivel lógico de red, es inalcanzable</b>.</li>
+          <li>Alumnos ya logueados pierden la sesión al guardar porque el servidor no tiene puertos para abrir una sub-conexión local hacia la Base de Datos.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: SIMULACIÓN INTERACTIVA -->
+  <div class="slide">
+    <div class="badge-category">3. Visualización en Tiempo Real</div>
+    <h2>Simulación: El Avance hacia la Medianoche</h2>
+    <p style="margin-bottom: 20px;">Utiliza el control deslizante para incrementar la concurrencia de estudiantes y observar el impacto en los Sockets de Capa 4.</p>
+    
+    <div class="sim-panel">
+      <div style="display: flex; justify-content: space-between; font-weight: 700; align-items: center;">
+        <span style="font-size: 1.1rem; color: var(--text-muted);">Hora Local: <span id="sim-time" style="color: var(--una-blue); font-size: 1.4rem;">11:59 PM</span></span>
+        <span style="font-size: 1.1rem; color: var(--text-muted);">Estudiantes Concurrentes: <span id="sim-users" style="color: var(--una-blue); font-size: 1.4rem;">100</span></span>
+      </div>
+      
+      <div class="slider-container">
+        <input type="range" id="slider" min="100" max="8000" step="100" value="100">
+      </div>
+      
+      <div class="sim-metrics">
+        <div class="sim-metric"><span>Conexiones TCP Activas</span><strong id="val-active">350</strong></div>
+        <div class="sim-metric"><span>Sockets en TIME_WAIT</span><strong id="val-wait" style="color: var(--warning);">15</strong></div>
+        <div class="sim-metric"><span>Consumo de Puertos Efímeros</span><strong id="val-percent">2%</strong></div>
+      </div>
+      
+      <div class="port-visualizer" id="port-grid"></div>
+      
+      <div id="sim-alert" class="sim-alert" style="background: #f8fafc; color: var(--text-main); border-color: var(--border-light);">
+        🟢 11:59 PM - Capa 4 operando normalmente. Gran disponibilidad de puertos lógicos.
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: SOLUCIONES -->
+  <div class="slide">
+    <div class="badge-category">4. Ingeniería y Soluciones</div>
+    <h2>Mitigación del Port Exhaustion</h2>
+    <div class="layout-3col">
+      <div class="card">
+        <h3>1. Tuning del Kernel (Capa 4)</h3>
+        <p style="font-size: 1.05rem;">Ajustes en los parámetros <code>sysctl</code> del servidor Linux para la capa TCP:</p>
+        <div class="code-box" style="font-size: 0.9rem; padding: 12px;">
+          net.ipv4.tcp_tw_reuse = 1<br>
+          net.ipv4.ip_local_port_range = 1024 65000
+        </div>
+        <p style="font-size: 1rem; margin-top: 15px;">Permite reciclar sockets en <code>TIME_WAIT</code> si es seguro (Timestamps), y expande drásticamente el rango de puertos disponibles.</p>
+      </div>
+      <div class="card">
+        <h3>2. Balanceo de Carga L4/L7</h3>
+        <p style="font-size: 1.05rem;">La solución arquitectónica definitiva:</p>
+        <ul style="font-size: 1rem;">
+          <li>Implementar Proxies Inversos (Nginx / HAProxy).</li>
+          <li>En lugar de que un solo OS soporte los 65k puertos, se distribuye la tabla de estados TCP entre un cluster de múltiples servidores web.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="color: var(--una-gold);">3. Solución Administrativa</h3>
+        <p style="color: var(--text-muted); font-size: 1.05rem;">Toda red tiene un límite matemático absoluto. Para evitar la denegación de servicio automática de la medianoche, se debe implementar una <b>Matrícula Escalonada</b>: dividir el acceso por facultades o semestres en distintos bloques horarios para aplanar la curva de peticiones TCP.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controles de Footer -->
+  <div class="footer-controls">
+    <div class="branding">ADMINISTRACIÓN DE REDES • INGENIERÍA ESTADÍSTICA E INFORMÁTICA • UNA PUNO</div>
+    <div style="display: flex; gap: 12px;">
+      <button class="btn-nav" onclick="prevSlide()">← Atrás</button>
+      <button class="btn-nav" onclick="nextSlide()" style="background: var(--una-blue); color: white; border: none;">Siguiente Diapositiva →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // --- CONTROL DE NAVEGACIÓN ---
+  const slides = document.querySelectorAll('.slide');
+  const progressBar = document.getElementById('progress');
+  let currentSlide = 0;
+
+  function updateSlides() {
+    slides.forEach((slide, index) => {
+      if (index === currentSlide) {
+        slide.classList.add('active');
+      } else {
+        slide.classList.remove('active');
+      }
+    });
+    const progress = (currentSlide / (slides.length - 1)) * 100;
+    progressBar.style.width = `${progress}%`;
+  }
+
+  function nextSlide() {
+    if (currentSlide < slides.length - 1) {
+      currentSlide++;
+      updateSlides();
+    }
+  }
+
+  function prevSlide() {
+    if (currentSlide > 0) {
+      currentSlide--;
+      updateSlides();
+    }
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'Space') nextSlide();
+    if (e.key === 'ArrowLeft') prevSlide();
+  });
+
+  updateSlides();
+
+  // --- LÓGICA DEL SIMULADOR DE CAPA 4 ---
+  const slider = document.getElementById('slider');
+  const portGrid = document.getElementById('port-grid');
+  const totalDots = 100; // 100 puntos = 100% de los puertos efímeros (~28,000 puertos reales)
+
+  // Dibujar cuadrícula
+  for (let i = 0; i < totalDots; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'port-dot';
+    portGrid.appendChild(dot);
+  }
+  const dots = document.querySelectorAll('.port-dot');
+
+  function updateSim() {
+    const users = parseInt(slider.value);
+    
+    // Reloj dinámico
+    let timeStr = "11:59 PM";
+    if(users > 800 && users <= 2000) timeStr = "12:00 AM";
+    if(users > 2000 && users <= 4500) timeStr = "12:02 AM";
+    if(users > 4500 && users <= 6500) timeStr = "12:04 AM";
+    if(users > 6500) timeStr = "12:08 AM";
+    
+    // Modelado Matemático Capa 4
+    let activeConns = Math.floor(users * 3.5); 
+    // F5 Spam eleva TIME_WAIT exponencialmente
+    let waitConns = Math.floor(Math.pow(users, 2.1) / 1500); 
+    
+    // Capacidad max = 28,000
+    let totalConns = activeConns + waitConns;
+    let percent = Math.min(100, Math.floor((totalConns / 28000) * 100));
+    
+    // Textos
+    document.getElementById('sim-users').innerText = users.toLocaleString();
+    document.getElementById('sim-time').innerText = timeStr;
+    document.getElementById('val-active').innerText = activeConns.toLocaleString();
+    document.getElementById('val-wait').innerText = waitConns.toLocaleString();
+    document.getElementById('val-percent').innerText = percent + "%";
+
+    // Puntos Visuales
+    let activeDots = Math.floor(percent * 0.25); 
+    let waitDots = percent - activeDots; 
+    
+    dots.forEach((dot, i) => {
+      dot.className = 'port-dot'; 
+      if (i < activeDots) {
+        dot.classList.add('used'); // Rojo
+      } else if (i < (activeDots + waitDots)) {
+        dot.classList.add('wait'); // Naranja
+      }
+    });
+
+    // Alertas
+    const alertBox = document.getElementById('sim-alert');
+    if (percent < 45) {
+      alertBox.style.background = '#f8fafc'; alertBox.style.color = '#0f172a'; alertBox.style.borderColor = '#e2e8f0';
+      alertBox.innerText = `🟢 ${timeStr} - Capa 4 operando normalmente. Amplia disponibilidad de puertos efímeros en el OS.`;
+    } else if (percent < 90) {
+      alertBox.style.background = '#fffbeb'; alertBox.style.color = '#b45309'; alertBox.style.borderColor = '#fde68a';
+      alertBox.innerText = `🟠 ${timeStr} - ALERTA: Acumulación de TIME_WAIT por F5 consecutivo. La red comienza a experimentar latencia.`;
+    } else {
+      alertBox.style.background = '#fef2f2'; alertBox.style.color = '#b91c1c'; alertBox.style.borderColor = '#fecaca';
+      alertBox.innerText = `🔴 ${timeStr} - ¡PORT EXHAUSTION! La Cuádrupla TCP está saturada. El OS bloquea nuevos sockets (Timeout).`;
+    }
+  }
+
+  slider.addEventListener('input', updateSim);
+  updateSim(); 
+</script>
+</body>
+</html>
