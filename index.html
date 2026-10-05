@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Matrículas UNA PUNO: Análisis de Capa 4</title>
 <style>
-  /* Paleta y Tipografía - Estilo Editorial y Minimalista (Cero Dark Mode) */
   :root {
     --bg-page: #f8fafc; 
     --bg-slide: #ffffff;
@@ -34,7 +33,6 @@
     height: 100vh;
   }
 
-  /* Contenedor Principal de la Presentación */
   #deck {
     position: relative;
     width: 92vw;
@@ -49,7 +47,6 @@
     border: 1px solid var(--border-light);
   }
 
-  /* Diapositivas */
   .slide {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -67,7 +64,6 @@
     transform: translateY(0);
   }
 
-  /* Tipografía */
   .badge-category {
     align-self: flex-start;
     background: #ffffff;
@@ -87,7 +83,6 @@
   p, li { font-size: 1.2rem; line-height: 1.6; color: var(--text-muted); margin-bottom: 15px;}
   ul { margin-top: 5px; padding-left: 25px; }
   
-  /* Layouts */
   .layout-split {
     display: grid;
     grid-template-columns: 1.15fr 0.85fr;
@@ -108,7 +103,6 @@
     margin-top: 1rem;
   }
   
-  /* Imágenes */
   .image-container {
     width: 100%;
     height: 100%;
@@ -126,7 +120,6 @@
     filter: contrast(1.05) brightness(0.95);
   }
 
-  /* Tarjetas y Cajas Blancas/Claras */
   .card {
     background: #ffffff;
     border: 1px solid var(--border-light);
@@ -147,7 +140,6 @@
     border-bottom: 1px solid var(--border-light);
   }
   
-  /* Código estilo Editorial Claro (Sin Dark Mode) */
   .code-box {
     background: #f1f5f9;
     color: var(--text-main);
@@ -161,7 +153,6 @@
     border: 1px solid var(--border-light);
   }
 
-  /* Controles Inferiores */
   .footer-controls {
     position: absolute;
     bottom: 0; left: 0; right: 0;
@@ -197,25 +188,73 @@
   }
   .progress-bar { height: 100%; background: var(--una-blue); width: 0%; transition: width 0.3s ease; }
 
-  /* Elementos del Simulador */
+  /* Tablas de las diapositivas nuevas */
+  .osi { width: 100%; border-collapse: collapse; font-size: 1rem; }
+  .osi th, .osi td { border-bottom: 1px solid var(--border-light); padding: 8px 12px; text-align: left; vertical-align: top; color: var(--text-muted); line-height: 1.35; }
+  .osi th { color: var(--una-blue); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
+  .osi td:first-child { font-weight: 700; color: var(--una-blue); white-space: nowrap; }
+  .osi tr.hl td { background: #eff6ff; }
+  .osi code { font-family: 'Courier New', Courier, monospace; font-size: 0.92rem; color: var(--text-main); background: #f1f5f9; padding: 1px 5px; border-radius: 3px; }
+
+  /* Elementos del Simulador en Diapositiva 7 */
   .sim-panel {
     background: #ffffff;
     border: 1px solid var(--border-light);
-    padding: 40px;
+    padding: 30px;
     border-radius: 8px;
+    display: flex;
+    gap: 30px;
   }
-  .slider-container { margin: 30px 0; }
-  input[type=range] { width: 100%; accent-color: var(--una-blue); cursor: pointer; height: 6px; }
-  .sim-metrics { display: flex; justify-content: space-between; margin-top: 30px; padding: 20px; background: #ffffff; border-radius: 6px; border: 1px solid var(--border-light); }
-  .sim-metric { text-align: center; }
-  .sim-metric span { display: block; font-size: 0.95rem; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;}
-  .sim-metric strong { font-size: 3rem; color: var(--una-blue); font-weight: 800; line-height: 1; font-family: monospace; }
-  .port-visualizer { display: grid; grid-template-columns: repeat(25, 1fr); gap: 4px; margin-top: 30px; }
-  .port-dot { height: 16px; background: #e2e8f0; border-radius: 2px; transition: background 0.2s; }
-  .port-dot.used { background: var(--danger); }
-  .port-dot.wait { background: var(--warning); }
-  .sim-alert { margin-top: 25px; padding: 18px; border-radius: 6px; font-weight: 600; text-align: center; border: 1px solid transparent; font-size: 1.15rem; transition: all 0.3s;}
+  .sim-controls {
+    flex: 0 0 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .sim-view {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .control-group label { display: flex; justify-content: space-between; font-weight: 700; font-size: 0.95rem; margin-bottom: 8px; color: var(--text-main); }
+  .control-group input[type="range"] { width: 100%; accent-color: var(--una-blue); cursor: pointer; height: 6px; }
+  .val-badge { background: #f1f5f9; padding: 2px 8px; border-radius: 4px; color: var(--una-blue); font-family: monospace; font-size: 0.9rem; border: 1px solid var(--border-light); }
+  
+  .btn-auto {
+    background: var(--una-blue); color: white; border: none; padding: 12px; font-size: 1rem; font-weight: 700; border-radius: 6px; cursor: pointer; transition: background 0.2s; margin-top: 10px;
+  }
+  .btn-auto:hover { background: #172554; }
+  .btn-auto:disabled { background: #94a3b8; cursor: not-allowed; }
 
+  .sim-metrics { display: flex; justify-content: space-between; margin-bottom: 20px; padding: 15px; background: #ffffff; border-radius: 6px; border: 1px solid var(--border-light); }
+  .sim-metric { text-align: center; }
+  .sim-metric span { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; font-weight: 600;}
+  .sim-metric strong { font-size: 2.2rem; color: var(--una-blue); font-weight: 800; line-height: 1; font-family: monospace; }
+  
+  .port-visualizer { display: grid; grid-template-columns: repeat(40, 1fr); gap: 3px; background: #f8fafc; padding: 15px; border-radius: 6px; border: 1px solid var(--border-light); }
+  .port-dot { aspect-ratio: 1/1; background: #10b981; border-radius: 50%; transition: background 0.2s; }
+  
+  .sim-alert { margin-top: 15px; padding: 15px; border-radius: 6px; font-weight: 600; text-align: center; border: 1px solid transparent; font-size: 1.05rem; transition: all 0.3s;}
+
+  .legend { display: flex; gap: 15px; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 10px; justify-content: flex-end;}
+  .legend div { display: flex; align-items: center; gap: 5px; }
+  .dot-legend { width: 10px; height: 10px; border-radius: 50%; }
+
+  .slide.tight { padding: 34px 60px 84px 60px; }
+  .lg { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 20px; flex-grow: 1; min-height: 0; align-content: start; }
+  .lb { border: 1px solid var(--border-light); border-top: 3px solid var(--border-light); border-radius: 8px; padding: 11px 16px; background: #fff; }
+  .lb h4 { margin: 0 0 6px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.6px; color: var(--una-blue); }
+  .lb p, .lb li { font-size: 0.95rem; line-height: 1.38; margin: 0 0 4px; color: var(--text-muted); }
+  .lb ol, .lb ul { margin: 0; padding-left: 20px; }
+  .lb.ok { border-top-color: var(--success); } .lb.ok h4 { color: var(--success); }
+  .lb.warn { border-top-color: var(--warning); } .lb.warn h4 { color: var(--warning); }
+  .lb.bad { border-top-color: var(--danger); } .lb.bad h4 { color: var(--danger); }
+  .plan { margin-top: 12px; background: #eff6ff; border-left: 4px solid var(--una-blue); padding: 10px 16px; border-radius: 4px; font-size: 0.98rem; color: var(--una-blue); line-height: 1.4; }
+  .plan b { font-weight: 800; }
+  .osi.sm th, .osi.sm td { font-size: 0.9rem; padding: 7px 10px; }
+  .osi.sm td:nth-child(2) { white-space: normal; }
+  .osi.sm th, .osi.sm td { font-size: 0.9rem; padding: 7px 10px; }
+  .osi.sm td:nth-child(2) { white-space: normal; }
 </style>
 </head>
 <body>
@@ -223,11 +262,20 @@
 <div id="deck">
   <div class="progress-bar-container"><div class="progress-bar" id="progress"></div></div>
 
-  <!-- SLIDE 1: PORTADA -->
+  <div id="deck">
+  <div class="progress-bar-container"><div class="progress-bar" id="progress"></div></div>
+
+<div id="deck">
+  <div class="progress-bar-container"><div class="progress-bar" id="progress"></div></div>
+
+<div id="deck">
+  <div class="progress-bar-container"><div class="progress-bar" id="progress"></div></div>
+
+<!-- SLIDE 1: PORTADA -->
   <div class="slide active">
     <div class="layout-split">
       <div style="padding-right: 20px;">
-        <div class="badge-category">Administración de Redes - VII Ciclo</div>
+        <div class="badge-category">Administración de Redes · VII Ciclo</div>
         <h1 style="font-size: 3.8rem;">El Colapso de la Medianoche</h1>
         <p style="font-size: 1.4rem; margin-bottom: 2.5rem; color: var(--text-main);">Análisis técnico de la <b>Capa 4 (Transporte)</b> y el fenómeno de <i>Port Exhaustion</i> durante las matrículas de la Universidad Nacional del Altiplano.</p>
         <div style="border-top: 1px solid var(--border-light); padding-top: 1.5rem;">
@@ -238,188 +286,117 @@
         </div>
       </div>
       <div class="image-container">
-        <!-- Imagen clara de un cuarto de servidores blanco/gris -->
         <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Data Center Limpio">
       </div>
     </div>
   </div>
 
-  <!-- SLIDE 2: TEORÍA 1 - SOCKETS Y PUERTOS -->
+  
+<div class="slide tight"><div class="badge-category" style="margin-bottom:.7rem">Estructura de la exposición</div><h2 style="font-size:1.8rem;margin-bottom:10px">Contenido</h2><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:6px"><div class="card" style="border-top:4px solid var(--una-blue);padding:22px"><div style="font-size:.8rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--una-blue)">Parte I</div><h3 style="margin:6px 0 12px">Marco teórico</h3><ul><li>Modelo OSI: la petición nace en la Capa 7</li><li>Capas 7 a 5: aplicación, cifrado y sesión</li><li>Capa 4 en profundidad: TCP y puertos</li><li>Capas 3 a 1: red, enlace y señal</li></ul></div><div class="card" style="border-top:4px solid var(--danger);padding:22px"><div style="font-size:.8rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--danger)">Parte II</div><h3 style="margin:6px 0 12px">El problema</h3><ul><li>Contexto de las 12:00 AM</li><li>Método y hallazgos, de la Capa 7 a la 1</li><li>Capa 4 en profundidad: Port Exhaustion</li><li>Resumen del diagnóstico</li></ul></div><div class="card" style="border-top:4px solid var(--success);padding:22px"><div style="font-size:.8rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--success)">Parte III</div><h3 style="margin:6px 0 12px">La solución</h3><ul><li>Plan de solución por capa</li><li>Plan por fases para restablecer el flujo</li></ul></div><div class="card" style="border-top:4px solid var(--una-gold);padding:22px"><div style="font-size:.8rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--una-gold)">Parte IV</div><h3 style="margin:6px 0 12px">Cierre</h3><ul><li>Validación mediante simulación</li><li>Conclusiones</li><li>Referencias</li></ul></div></div></div>
+<div class="slide tight"><div class="badge-category" style="margin-bottom:.7rem">Introducción</div><h2 style="font-size:1.8rem;margin-bottom:10px">Objetivos y alcance</h2><div class="lg"><div class="lb "><h4>Objetivo general</h4><p>Explicar el funcionamiento de la red capa por capa en el proceso de matrícula en línea de la UNA Puno, identificar en qué capa se origina el colapso de las 12:00 AM y proponer un plan de solución.</p></div><div class="lb "><h4>Objetivos específicos</h4><ol><li>Describir el procedimiento, la función y los problemas frecuentes de cada capa, con énfasis en la Capa 4.</li><li>Diagnosticar a qué se debe la falla en cada capa.</li><li>Explicar el agotamiento de puertos y por qué ocurre.</li><li>Plantear soluciones técnicas y administrativas.</li><li>Validar la lógica del problema con una simulación.</li></ol></div><div class="lb "><h4>Alcance y limitaciones</h4><p>El caso se analiza de forma conceptual a partir del comportamiento conocido de TCP/IP. Las cifras de la simulación son ilustrativas; para confirmar el diagnóstico en el sistema real hay que medir durante el pico de matrícula.</p></div><div class="lb "><h4>Pregunta guía</h4><p>¿Por qué un servidor que aparentemente funciona bien se vuelve inalcanzable para los alumnos a las 12:00 AM, y cómo se restablece el flujo?</p></div></div></div>
+<div class="slide tight"><div class="badge-category" style="margin-bottom:.7rem">Parte I · Marco teórico</div><h2 style="font-size:1.8rem;margin-bottom:10px">El modelo OSI y el recorrido de la matrícula</h2><div class="lg"><div class="lb "><h4>Principio de funcionamiento</h4><ol><li>El alumno genera la petición en la Capa 7 (pide la página de matrícula).</li><li>Al bajar, cada capa añade su encabezado: es el encapsulamiento.</li><li>En la Capa 1 todo se convierte en señal y viaja por router, switches y cables hasta el servidor.</li><li>En el servidor se sube capa por capa y cada una retira su encabezado: desencapsulamiento.</li><li>Cada capa se comunica solo con su capa par del otro extremo, y la respuesta hace el camino inverso.</li></ol></div><div class="lb "><h4>Unidad de datos y elementos de cada capa</h4><table class="osi sm"><tr><th>Capa</th><th>Unidad</th><th>Elementos</th></tr><tr class=""><td>7 Aplicación</td><td>Datos</td><td>HTTP, HTTPS, DNS</td></tr><tr class=""><td>6 Presentación</td><td>Datos</td><td>TLS, codificación</td></tr><tr class=""><td>5 Sesión</td><td>Datos</td><td>Cookies, tokens</td></tr><tr class="hl"><td>4 Transporte</td><td>Segmento</td><td>TCP, puertos</td></tr><tr class=""><td>3 Red</td><td>Paquete</td><td>IP, router, NAT</td></tr><tr class=""><td>2 Enlace</td><td>Trama</td><td>MAC, switch, VLAN</td></tr><tr class=""><td>1 Física</td><td>Bits</td><td>Cable, fibra, WiFi</td></tr></table></div></div><div class="plan"><b>Idea clave:</b> la petición del alumno nace en la Capa 7 y baja hasta la Capa 1. La exposición sigue ese mismo orden y desarrolla la Capa 4 con más profundidad.</div></div>
+<div class="slide tight"><div class="badge-category" style="margin-bottom:.7rem">Parte I · Marco teórico · Capas 7 a 5</div><h2 style="font-size:1.8rem;margin-bottom:10px">Capas 7 a 5: aplicación, cifrado y sesión</h2><table class="osi sm"><tr><th>Capa</th><th>Procedimiento</th><th>Función</th><th>Problemas frecuentes</th></tr><tr class=""><td>7 Aplicación</td><td>El alumno pide la página por HTTPS. El servidor web pasa la petición al sistema de matrícula, que consulta la base de datos (cursos, cupos), registra la inscripción y responde. Cada consulta abre una conexión interna.</td><td>Es lo que el alumno ve y usa: formularios, validaciones (cupos, prerrequisitos) y registro.</td><td>Consultas lentas, sin pool de conexiones, pocas conexiones permitidas en la base de datos, sin caché.</td></tr><tr class=""><td>6 Presentación</td><td>Navegador y servidor negocian el cifrado (TLS), el servidor muestra su certificado y acuerdan una clave. Desde ahí los datos viajan cifrados y con un formato acordado.</td><td>Proteger claves, notas y datos personales, y comprobar que el sitio es el de la universidad.</td><td>Certificado vencido, cifrado desactualizado, negociación completa en cada conexión.</td></tr><tr class=""><td>5 Sesión</td><td>Al ingresar usuario y clave se crea una sesión. El navegador recibe una cookie o token que muestra en cada acción. La sesión termina al cerrar o vencer el tiempo.</td><td>Mantener al alumno identificado sin pedir la clave en cada clic y evitar que se mezclen datos entre alumnos.</td><td>Sesiones que vencen rápido, sesión guardada solo en un servidor, demasiadas sesiones abiertas.</td></tr></table></div>
+<div class="slide tight"><div class="badge-category" style="margin-bottom:.7rem">Parte I · Marco teórico · Capa 4</div><h2 style="font-size:1.8rem;margin-bottom:10px">Capa 4 · Transporte: cómo se conecta el alumno con el servidor</h2><div class="lg"><div class="lb "><h4>Procedimiento: paso a paso</h4><ol><li>El alumno envía SYN: quiero conectarme.</li><li>El servidor responde SYN-ACK: te escucho.</li><li>El alumno confirma con ACK: conexión abierta.</li><li>Los datos viajan en segmentos numerados; cada uno se confirma y lo perdido se reenvía.</li><li>Para cerrar, ambos lados envían FIN y confirman.</li></ol></div><div class="lb "><h4>Función de la capa</h4><p>Entrega confiable y ordenada de datos entre programas. La matrícula necesita TCP porque no puede perder ni desordenar una inscripción. Los puertos permiten que miles de conversaciones compartan una misma IP.</p></div><div class="lb "><h4>TIME_WAIT</h4><p>Al cerrar, el sistema retiene la conexión unos 60 segundos para asegurar que el último ACK llegó y que paquetes retrasados no se mezclen con una conexión nueva. Durante ese tiempo <b>el puerto sigue ocupado</b>.</p></div><div class="lb "><h4>Banderas TCP</h4><ul><li><b>SYN:</b> pedir conexión</li><li><b>ACK:</b> confirmar recepción</li><li><b>FIN:</b> cierre ordenado</li><li><b>RST:</b> corte inmediato; es el rechazo que ven los alumnos</li></ul></div></div><div class="plan"><b>Idea clave:</b> cada conexión ocupa un puerto desde que se abre hasta unos 60 segundos después de cerrarse.</div></div>
+<div class="slide tight"><div class="badge-category" style="margin-bottom:.7rem">Parte I · Marco teórico · Capa 4</div><h2 style="font-size:1.8rem;margin-bottom:10px">Capa 4 · Puertos, conexiones salientes y problemas frecuentes</h2><div class="lg"><div class="lb "><h4>Puertos y la cuádrupla</h4><p>Un puerto es un número de 16 bits (0 a 65535). Cada conexión se identifica con cuatro datos: IP y puerto del alumno, IP y puerto del servidor (443). Como el servidor siempre escucha en el 443, <b>recibir más alumnos no le consume puertos propios</b>.</p></div><div class="lb "><h4>Puertos efímeros</h4><p>Los usa quien <b>inicia</b> una conexión: el navegador, el NAT, el servidor web hacia la base de datos, el proxy hacia los servidores internos. En Linux el rango por defecto es de 32768 a 60999, unos 28,000 puertos.</p></div><div class="lb "><h4>Estados de una conexión</h4><ul><li><b>SYN_RECV:</b> conexión en proceso de apertura</li><li><b>ESTABLISHED:</b> conexión activa</li><li><b>TIME_WAIT:</b> cerrada, puerto retenido unos 60 s</li></ul></div><div class="lb "><h4>Problemas frecuentes de la capa</h4><ul><li>Agotamiento de puertos efímeros</li><li>TIME_WAIT acumulado por cierres masivos</li><li>Cola de conexiones pendientes (backlog) desbordada</li><li>Inundación de SYN</li><li>Retransmisiones por pérdida de paquetes</li></ul></div></div><div class="plan"><b>Idea clave:</b> el límite de puertos se aplica a quien inicia la conexión, no a quien escucha.</div></div>
+<div class="slide tight"><div class="badge-category" style="margin-bottom:.7rem">Parte I · Marco teórico · Capas 3 a 1</div><h2 style="font-size:1.8rem;margin-bottom:10px">Capas 3 a 1: enrutamiento, red local y señal</h2><table class="osi sm"><tr><th>Capa</th><th>Procedimiento</th><th>Función</th><th>Problemas frecuentes</th></tr><tr class=""><td>3 Red</td><td>Coloca la IP de origen y destino en cada paquete. El router elige la ruta. El NAT cambia las IP privadas por una pública y anota cada conexión en una tabla; al volver la respuesta, la consulta para entregarla.</td><td>Llevar paquetes entre redes distintas. El NAT permite que miles de equipos compartan pocas IP públicas.</td><td>Pocas IP públicas, tabla de conexiones del NAT llena, rutas mal configuradas.</td></tr><tr class=""><td>2 Enlace</td><td>Agrupa los bits en tramas con la dirección MAC de origen y destino. El switch las envía solo al puerto correcto. Las VLAN separan redes (laboratorios, oficinas, servidores).</td><td>Entregar datos dentro de una red local sin errores en ese tramo.</td><td>Bucles y tormentas de broadcast, puertos saturados, VLAN mal configuradas.</td></tr><tr class=""><td>1 Física</td><td>Convierte los bits en señales eléctricas, de luz o de radio que viajan por cable, fibra o WiFi hasta el proveedor de internet.</td><td>Mover bits entre equipos. Define el ancho de banda con que la universidad atiende a sus alumnos.</td><td>Cable o fibra dañados, WiFi saturado, enlace contratado insuficiente.</td></tr></table></div>
+<!-- SLIDE 5: PROBLEMÁTICA 1 - 12:00 AM & 20K ALUMNOS -->
   <div class="slide">
-    <div class="badge-category">1. Teoría de la Capa 4</div>
-    <h2>Multiplexación y Direccionamiento Lógico</h2>
-    <div class="layout-split-even">
-      <div>
-        <p>Mientras la Capa 3 (Red) enruta paquetes entre servidores, la <b>Capa 4 (Transporte)</b> es responsable de la comunicación extremo a extremo entre los <b>procesos de las aplicaciones</b>.</p>
-        <ul>
-          <li><b>Multiplexación mediante Sockets:</b> Permite que un solo servidor maneje simultáneamente miles de conexiones, estructurando el tráfico a través de puertos lógicos (0 - 65535).</li>
-          <li><b>Elección del Protocolo:</b> En un sistema de matrícula, la Capa 4 utiliza obligatoriamente <b>TCP</b> para garantizar la fiabilidad absoluta de los datos (evitando UDP).</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3>La Cuádrupla TCP (El Identificador)</h3>
-        <p>El Kernel de Linux del servidor web de la UNA Puno distingue a cada estudiante mediante un <i>socket pair</i> o <b>Cuádrupla TCP</b>:</p>
-        <div class="code-box">
-          { IP_Estudiante, <span style="color: var(--una-blue); font-weight:bold;">Puerto_Efímero</span>, <br>
-            IP_Servidor_UNA, Puerto_443 }
-        </div>
-        <p style="margin-top: 15px; font-size: 1.05rem;">Si una residencia universitaria entera sale a Internet por la misma IP Pública (NAT), <b>la única variable que el servidor usa para distinguir a los alumnos es el Puerto Efímero</b>. Esto convierte a los puertos en un recurso finito crítico.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- SLIDE 3: TEORÍA 2 - SEGMENTACIÓN Y FLAGS (NUEVA DIAPOSITIVA) -->
-  <div class="slide">
-    <div class="badge-category">1. Teoría de la Capa 4</div>
-    <h2>Segmentación y Banderas de Control (Flags TCP)</h2>
-    <div class="layout-split">
-      <div>
-        <p>En la Capa 4, el flujo continuo de datos de la página web se divide en bloques manejables llamados <b>Segmentos</b>. A cada segmento se le añade un encabezado TCP (de 20 a 60 bytes).</p>
-        <p>El mecanismo que permite al servidor saber en qué estado se encuentra la matrícula de un alumno son las <b>Banderas de Control (Flags)</b>, bits específicos dentro del encabezado TCP.</p>
-      </div>
-      <div class="card" style="border-left: 4px solid var(--una-blue);">
-        <h3 style="margin-bottom: 15px;">Flags críticas en nuestro caso:</h3>
-        <ul style="list-style: none; padding-left: 0;">
-          <li style="margin-bottom: 12px;"><b>[SYN] Synchronize:</b> Inicia el establecimiento de la sesión. Un estudiante pidiendo entrar.</li>
-          <li style="margin-bottom: 12px;"><b>[ACK] Acknowledgment:</b> Confirma la recepción de un segmento (vital para no perder la inscripción del curso).</li>
-          <li style="margin-bottom: 12px;"><b>[FIN] Finish:</b> Solicita el cierre ordenado y formal de la conexión.</li>
-          <li><b style="color: var(--danger);">[RST] Reset:</b> Aborta la conexión inmediatamente por error o saturación (el error que ven los alumnos).</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- SLIDE 4: PROBLEMÁTICA 1 - 12:00 AM -->
-  <div class="slide">
-    <div class="badge-category">2. Planteamiento del Caso</div>
+    <div class="badge-category">Parte II · El problema</div>
     <h2>El Contexto Crítico: Las 12:00 AM</h2>
     <div class="layout-split">
       <div class="image-container" style="min-height: 380px;">
         <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Estudiante programando de noche">
       </div>
       <div style="padding-left: 10px;">
-        <p>El diseño del proceso de matrícula exige que todos los estudiantes compitan por vacantes exactamente a la misma hora: <b>la medianoche</b>.</p>
-        <p>A las 12:00 AM en punto, miles de estudiantes inician sesiones simultáneas. La Capa 4 del servidor debe procesar un <b>Three-Way Handshake (SYN ➔ SYN-ACK ➔ ACK)</b> por cada recurso web que el navegador solicita.</p>
+        <p>La UNA Puno cuenta con <b>aproximadamente 20,000 estudiantes</b>. Si bien los alumnos que llevan cursos desaprobados ("jalados") o segunda carrera realizan su matrícula de manera presencial, la inmensa mayoría regular depende exclusivamente de la red.</p>
         <div class="highlight-box">
-          <b>El Comportamiento de Estrés (F5):</b><br>
-          Ante la menor latencia, el estudiante asume un cuelgue y presiona F5 repetidamente. Esto genera ráfagas masivas de nuevos paquetes SYN, multiplicando el tráfico lógico exponencialmente.
+          A las <b>12:00 AM en punto</b>, miles de estudiantes intentan ingresar simultáneamente. La Capa 4 del servidor recibe una avalancha masiva y debe procesar un <b>Three-Way Handshake (SYN ➔ SYN-ACK ➔ ACK)</b> por cada alumno.
         </div>
+        <p><b>El Comportamiento de Estrés (F5):</b> Ante la menor lentitud, el estudiante asume un cuelgue y presiona F5. Esto genera ráfagas masivas de nuevos paquetes SYN, multiplicando el tráfico lógico exponencialmente.</p>
       </div>
     </div>
   </div>
 
-  <!-- SLIDE 5: PROBLEMÁTICA 2 - TIME_WAIT -->
+  <div class="slide tight"><div class="badge-category" style="margin-bottom:.7rem">Parte II · El problema</div><h2 style="font-size:1.8rem;margin-bottom:10px">Método de diagnóstico e hipótesis de trabajo</h2><div class="lg"><div class="lb "><h4>Método</h4><ol><li>Se sigue el recorrido de la petición: nace en la Capa 7 y baja hasta la Capa 1.</li><li>En cada capa se analiza, en términos generales, qué ocurre durante el colapso. La Capa 4, foco del trabajo, se analiza en profundidad.</li><li>Se clasifica la capa según su papel en la falla.</li><li>Se identifica la causa raíz y cómo se propaga a las demás capas.</li></ol></div><div class="lb "><h4>Criterios de clasificación</h4><ul><li><b style="color:var(--success)">Se descarta:</b> el síntoma no encaja o afectaría a otros servicios</li><li><b style="color:var(--warning)">Contribuye:</b> participa o agrava el problema</li><li><b style="color:var(--warning)">Consecuencia:</b> sufre el efecto de otra capa</li><li><b style="color:var(--danger)">Causa principal:</b> explica el síntoma completo</li></ul></div><div class="lb "><h4>Síntomas observados</h4><ul><li>Timeouts y rechazos (RST) en los alumnos</li><li>Página congelada y sesión perdida al guardar</li><li>Servidor con procesador y memoria normales</li></ul></div><div class="lb bad"><h4>Hipótesis de trabajo</h4><p>El colapso se debe al agotamiento de puertos efímeros en la Capa 4, provocado por el pico de conexiones y los reintentos (F5), y no a una caída del servidor.</p></div></div></div>
+<div class="slide tight"><div class="badge-category" style="margin-bottom:.7rem">Parte II · El problema · Hallazgos</div><h2 style="font-size:1.8rem;margin-bottom:10px">Hallazgos en las Capas 7 a 5</h2><table class="osi sm"><tr><th>Capa</th><th>Resultado</th><th>Hallazgo y por qué</th></tr><tr class=""><td>7 Aplicación</td><td><b style="color:var(--warning)">Contribuye</b></td><td>Si cada petición abre una conexión nueva a la base de datos y no la reutiliza, miles de alumnos generan miles de conexiones internas. Estas consumen los puertos de la Capa 4 y dejan al sistema sin canal hacia la base de datos.</td></tr><tr class=""><td>6 Presentación</td><td><b style="color:var(--warning)">Agrava</b></td><td>Cada conexión nueva exige una negociación de cifrado que gasta procesador. Con miles de F5, cada reintento repite ese trabajo, aunque la página nunca llegue a mostrarse.</td></tr><tr class=""><td>5 Sesión</td><td><b style="color:var(--warning)">Consecuencia</b></td><td>Cuando la Capa 4 rechaza conexiones, el alumno ya logueado pierde la conexión al guardar, su sesión se interrumpe o vence y debe empezar de nuevo. Eso genera todavía más intentos.</td></tr></table></div>
+<div class="slide tight"><div class="badge-category" style="margin-bottom:.7rem">Parte II · El problema · Hallazgo principal</div><h2 style="font-size:1.8rem;margin-bottom:10px">Capa 4 · Port Exhaustion (agotamiento de puertos)</h2><div class="lg"><div class="lb "><h4>Qué ocurre a medianoche, paso a paso</h4><ol><li>Miles de alumnos intentan entrar a la vez: miles de SYN.</li><li>Ante la lentitud presionan F5: cierran e inician conexiones una y otra vez.</li><li>Cada conexión cerrada queda unos 60 s en TIME_WAIT, ocupando su puerto.</li><li>Las abiertas más las retenidas llenan los unos 28,000 puertos disponibles.</li><li>Las conexiones nuevas se rechazan (RST) o quedan sin respuesta (timeout).</li></ol></div><div class="lb bad"><h4>Hallazgo y por qué</h4><p><b>Causa principal.</b> Las conexiones nuevas por minuto superan a los puertos que se liberan en ese tiempo. El servidor no se agota por recibir alumnos: se agota donde <b>él inicia</b> conexiones, como hacia la base de datos, hacia otros servidores internos y en el NAT. Por eso el procesador y la memoria pueden verse normales.</p></div><div class="lb "><h4>Síntomas que ve el alumno</h4><ul><li>Error de timeout o página congelada</li><li>Sesión perdida al guardar (no hay puerto libre hacia la base de datos)</li><li>Funciona un rato y vuelve a fallar</li></ul></div><div class="lb "><h4>Factores que lo agravan</h4><ul><li>Reintentos masivos (F5)</li><li>Abrir una conexión nueva en vez de reutilizar</li><li>Rango de puertos pequeño</li><li>Cola de conexiones pendientes desbordada</li></ul></div></div><div class="plan"><b>Relación causal:</b> pico de conexiones + reintentos (F5) + TIME_WAIT de 60 s + conexiones no reutilizadas = puertos agotados = rechazos y timeouts.</div></div>
+<div class="slide tight"><div class="badge-category" style="margin-bottom:.7rem">Parte II · El problema · Capa 4 en profundidad</div><h2 style="font-size:1.8rem;margin-bottom:10px">Capa 4 · ¿Dónde se agotan realmente los puertos?</h2><p style="font-size:1rem;margin:0 0 10px">El servidor escucha siempre en el puerto 443 y distingue a cada alumno por su cuádrupla, así que las conexiones entrantes no agotan sus puertos. El límite aparece donde se <b>inician</b> conexiones:</p><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px"><div class="lb bad"><h4>1. NAT / firewall</h4><p>Los alumnos llegan a través de pocas IP públicas. Cada conexión consume un puerto de la IP pública y una entrada en la tabla del equipo; al llenarse, se descartan las conexiones nuevas.</p></div><div class="lb bad"><h4>2. Servidor web ➔ base de datos</h4><p>Cada petición abre una conexión saliente hacia la base de datos. Sin pool de conexiones, los puertos efímeros se agotan rápido y el sistema queda sin canal hacia los datos.</p></div><div class="lb bad"><h4>3. Proxy ➔ servidores de aplicación</h4><p>Un proxy con un solo destino interno usa siempre la misma IP y puerto de destino, así que solo varía el puerto de origen y el rango se llena.</p></div></div><div style="margin-top:12px"><div class="lb "><h4>Cómo se reconoce el agotamiento</h4><ul><li>Muchas conexiones en TIME_WAIT, cercanas al tamaño del rango de puertos</li><li>Errores de conexión mientras el procesador y la memoria están normales</li></ul></div></div><div class="plan"><b>Otras causas a descartar con medición:</b> tabla de conexiones (conntrack) llena en el firewall, cola de SYN desbordada y ancho de banda saturado.</div></div>
+<div class="slide tight"><div class="badge-category" style="margin-bottom:.7rem">Parte II · El problema · Capa 4 en profundidad</div><h2 style="font-size:1.8rem;margin-bottom:10px">Capa 4 · Capacidad frente a demanda (cálculo ilustrativo)</h2><div class="lg"><div class="lb "><h4>Capacidad máxima</h4><p>Cada conexión cerrada retiene su puerto unos 60 s. Con unos 28,000 puertos, el máximo sostenido es de aproximadamente 28,000 ÷ 60 ≈ <b>467 conexiones nuevas por segundo</b> hacia un mismo destino (IP y puerto).</p></div><div class="lb bad"><h4>Demanda en el pico (ejemplo)</h4><p>Si 5,000 alumnos recargan la página cada 10 segundos y cada recarga abre una conexión nueva, la demanda es de unas <b>500 conexiones por segundo</b>: ya supera la capacidad.</p></div><div class="lb "><h4>Qué ocurre al superarla</h4><p>Los puertos se consumen más rápido de lo que se liberan, la tabla se llena y las conexiones nuevas se rechazan. Cada rechazo empuja al alumno a reintentar, y la demanda sube todavía más: es un círculo vicioso.</p></div><div class="lb "><h4>Cómo se aumenta la capacidad</h4><ul><li>Reutilizar conexiones: una conexión atiende muchas peticiones</li><li>Ampliar el rango de puertos</li><li>Usar más IP de origen o de destino</li><li>Reducir los reintentos (cola de espera)</li></ul></div></div><div class="plan"><b>Relación:</b> capacidad ≈ puertos disponibles ÷ tiempo de retención. Para evitar el colapso, la demanda de conexiones nuevas debe mantenerse por debajo de esa cifra. Los valores reales dependen de la configuración.</div></div>
+<div class="slide tight"><div class="badge-category" style="margin-bottom:.7rem">Parte II · El problema · Hallazgos</div><h2 style="font-size:1.8rem;margin-bottom:10px">Hallazgos en las Capas 3 a 1</h2><table class="osi sm"><tr><th>Capa</th><th>Resultado</th><th>Hallazgo y por qué</th></tr><tr class="hl"><td>3 Red</td><td><b style="color:var(--warning)">Contribuye</b></td><td>El firewall o NAT delante del servidor registra cada conexión en una tabla finita. Con miles de intentos y reintentos (F5) se llena y descarta conexiones nuevas, aunque la ruta esté bien. Además, los alumnos que comparten una IP pública (residencias, operadores móviles) compiten por los mismos puertos.</td></tr><tr class=""><td>2 Enlace</td><td><b style="color:var(--success)">Se descarta</b></td><td>Una falla aquí afectaría a toda una red local, no solo a la matrícula, y el servidor se alcanza con normalidad.</td></tr><tr class=""><td>1 Física</td><td><b style="color:var(--success)">Se descarta</b></td><td>Un enlace saturado produce lentitud general, pero los alumnos reciben rechazos y timeouts, que apuntan a capas superiores. Se confirma midiendo el uso del enlace en el pico.</td></tr></table></div>
+<div class="slide tight"><div class="badge-category" style="margin-bottom:.7rem">Parte II · El problema · Síntesis</div><h2 style="font-size:1.8rem;margin-bottom:10px">Resumen del diagnóstico</h2><table class="osi sm"><tr><th>Capa</th><th>Resultado</th><th>A qué se debe</th></tr><tr class=""><td>7 Aplicación</td><td><b style="color:var(--warning)">Contribuye</b></td><td>Una conexión nueva a la base de datos por petición</td></tr><tr class=""><td>6 Presentación</td><td><b style="color:var(--warning)">Agrava</b></td><td>Cada reintento repite el cifrado</td></tr><tr class=""><td>5 Sesión</td><td><b style="color:var(--warning)">Consecuencia</b></td><td>Se pierde la conexión al guardar</td></tr><tr class="hl"><td>4 Transporte</td><td><b style="color:var(--danger)">Causa principal</b></td><td>Más conexiones nuevas que puertos liberados (TIME_WAIT)</td></tr><tr class=""><td>3 Red</td><td><b style="color:var(--warning)">Contribuye</b></td><td>Tabla del firewall/NAT llena por reintentos</td></tr><tr class=""><td>2 Enlace</td><td><b style="color:var(--success)">Se descarta</b></td><td>Afectaría a toda la red local</td></tr><tr class=""><td>1 Física</td><td><b style="color:var(--success)">Se descarta</b></td><td>El síntoma no es lentitud general</td></tr></table></div>
+<div class="slide tight"><div class="badge-category" style="margin-bottom:.7rem">Parte III · La solución</div><h2 style="font-size:1.8rem;margin-bottom:10px">Plan de solución para restablecer el flujo, capa por capa</h2><table class="osi sm"><tr><th>Capa</th><th>Plan de solución</th><th>Efecto esperado</th></tr><tr class=""><td>7 Aplicación</td><td>Pool de conexiones, consultas optimizadas, caché, cola de espera y límite de reintentos por usuario.</td><td>Menos conexiones internas y menos reintentos.</td></tr><tr class=""><td>6 Presentación</td><td>Reanudar sesiones TLS y cifrar en el balanceador de carga.</td><td>Menos procesador por cada reintento.</td></tr><tr class=""><td>5 Sesión</td><td>Guardar las sesiones en un almacén compartido y alargar su duración en el pico.</td><td>El alumno no pierde su trámite.</td></tr><tr class="hl"><td>4 Transporte</td><td>Reutilizar conexiones (pool y keep-alive), ampliar el rango de puertos, reciclar puertos de conexiones salientes ya cerradas y repartir la carga en varios servidores.</td><td>Los puertos se liberan al ritmo en que se consumen.</td></tr><tr class=""><td>3 Red</td><td>Ampliar la tabla del firewall/NAT, acortar la retención de conexiones cerradas y agregar IP públicas.</td><td>El NAT soporta más conexiones simultáneas.</td></tr><tr class=""><td>2 Enlace</td><td>Revisar errores en los switches, activar protección contra bucles (STP) y verificar el puerto del servidor.</td><td>Elimina cuellos de botella locales.</td></tr><tr class=""><td>1 Física</td><td>Medir el uso del enlace en el pico; ampliar el ancho de banda o contratar un enlace de respaldo.</td><td>Evita la saturación del enlace de salida.</td></tr></table></div>
+<div class="slide tight"><div class="badge-category" style="margin-bottom:.7rem">Parte III · La solución</div>
+<h2 style="font-size:1.8rem;margin-bottom:6px">Plan por fases: restablecer el flujo y evitar que se repita</h2>
+<div class="layout-3col">
+<div class="card" style="border-top:4px solid var(--danger);padding:20px"><h3 style="font-size:1.15rem">1. Durante el pico</h3><ul style="font-size:.95rem">
+<li>Avisar a los alumnos que no recarguen y activar una cola de espera.</li><li>Limitar los reintentos por usuario.</li><li>Liberar las conexiones colgadas hacia la base de datos.</li><li>Ampliar temporalmente el rango de puertos y sumar servidores si se puede.</li></ul></div>
+<div class="card" style="border-top:4px solid var(--warning);padding:20px"><h3 style="font-size:1.15rem">2. Antes de la próxima matrícula</h3><ul style="font-size:.95rem">
+<li>Pool de conexiones hacia la base de datos y keep-alive.</li><li>Reutilización de puertos de conexiones salientes y rango ampliado.</li><li>Más capacidad en el firewall/NAT.</li><li>Pruebas de carga y monitoreo de conexiones.</li></ul></div>
+<div class="card" style="border-top:4px solid var(--success);padding:20px"><h3 style="font-size:1.15rem;color:var(--una-gold)">3. Solución de fondo</h3><ul style="font-size:.95rem">
+<li>Balanceador de carga (Nginx o HAProxy) con varios servidores.</li><li>Caché o CDN para el contenido que no cambia.</li><li><b>Matrícula escalonada por facultades</b> en distintos horarios, para aplanar el pico de las 12:00 AM.</li></ul></div>
+</div>
+<p style="font-size:1rem;margin-top:10px">La tecnología siempre tiene un límite. Con unos 20,000 alumnos entrando a la vez, repartir la demanda en el tiempo es la medida más barata y efectiva.</p></div>
+<!-- SLIDE 9: SIMULACIÓN INTERACTIVA INTEGRADA -->
   <div class="slide">
-    <div class="badge-category">2. Planteamiento del Caso</div>
-    <h2>La Máquina de Estados TCP: El limbo de TIME_WAIT</h2>
-    <div class="layout-split-even">
-      <div>
-        <p>El problema no radica en abrir conexiones, sino en cerrarlas. Al recargar la página (F5), el sistema debe ejecutar un <b>Teardown de 4 vías (FIN, ACK, FIN, ACK)</b>.</p>
-        <p>Sin embargo, la Capa 4 del OS <b>NO libera el socket inmediatamente</b>. La conexión ingresa al estado <code>TIME_WAIT</code> (por aprox. 60 segundos).</p>
-        
-        <h3 style="margin-top: 20px;">¿Por qué TCP exige esta espera?</h3>
-        <ul>
-          <li>Garantiza que el último ACK enviado llegó al otro extremo.</li>
-          <li>Evita que paquetes antiguos "retrasados" en la red corrompan la sesión de un futuro estudiante que reciba ese mismo puerto efímero.</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3>Diagnóstico en el Servidor</h3>
-        <p style="font-size: 1.05rem;">Al ejecutar comandos de red en pleno colapso, el administrador de la UNA observará una tabla de conexiones saturada por "sesiones fantasma":</p>
-        <div class="code-box">
-          ~$ ss -tan | awk '{print $1}' | uniq -c<br><br>
-          &nbsp;&nbsp; 842 ESTABLISHED<br>
-          &nbsp;&nbsp;&nbsp; 41 SYN_RECV<br>
-          <span style="color: var(--danger); font-weight: bold;"> 28540 TIME_WAIT</span>
-        </div>
-        <p style="margin-top: 15px; font-size: 1.05rem; color: var(--text-muted);">Los puertos efímeros están bloqueados temporalmente por el temporizador de TCP.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- SLIDE 6: PROBLEMÁTICA 3 - PORT EXHAUSTION -->
-  <div class="slide">
-    <div class="badge-category">2. Planteamiento del Caso</div>
-    <h2>Port Exhaustion (Agotamiento de Puertos)</h2>
-    <div class="layout-split">
-      <div class="card" style="border-top: 4px solid var(--danger);">
-        <h3 style="color: var(--danger);">El Colapso Técnico (Capa 4)</h3>
-        <p>Un sistema Linux genérico dispone de un rango limitado de puertos efímeros (aprox. 28,000).</p>
-        <p>Cuando la suma de conexiones <code>ESTABLISHED</code> y las retenidas en <code>TIME_WAIT</code> alcanzan este tope, <b>la Capa de Transporte agota sus recursos de direccionamiento</b>. El Kernel se ve obligado a rechazar silenciosamente los nuevos paquetes SYN o devolver un <code>RST</code>.</p>
-      </div>
-      <div>
-        <h3>Impacto directo en el Estudiante</h3>
-        <ul style="line-height: 1.8;">
-          <li>El navegador arroja errores de <b>Connection Timeout</b> o la carga se congela indefinidamente.</li>
-          <li>El servidor físico de la universidad NO está caído (CPU y RAM operan normal), pero <b>a nivel lógico de red, es inalcanzable</b>.</li>
-          <li>Alumnos ya logueados pierden la sesión al guardar porque el servidor no tiene puertos para abrir una sub-conexión local hacia la Base de Datos.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- SLIDE 7: SIMULACIÓN INTERACTIVA -->
-  <div class="slide">
-    <div class="badge-category">3. Visualización en Tiempo Real</div>
-    <h2>Simulación: El Avance hacia la Medianoche</h2>
-    <p style="margin-bottom: 20px;">Utiliza el control deslizante para incrementar la concurrencia de estudiantes y observar el impacto en los Sockets de Capa 4.</p>
+    <div class="badge-category">Parte IV · Validación mediante simulación</div>
+    <h2 style="margin-bottom: 6px;">Simulación: El Avance hacia la Medianoche</h2>
+    <p style="font-size: 0.9rem; margin: 0 0 12px;">Modelo ilustrativo: las proporciones (por ejemplo, 90 % menos TIME_WAIT al activar la reutilización de puertos) son supuestos didácticos, no mediciones.</p>
     
     <div class="sim-panel">
-      <div style="display: flex; justify-content: space-between; font-weight: 700; align-items: center;">
-        <span style="font-size: 1.1rem; color: var(--text-muted);">Hora Local: <span id="sim-time" style="color: var(--una-blue); font-size: 1.4rem;">11:59 PM</span></span>
-        <span style="font-size: 1.1rem; color: var(--text-muted);">Estudiantes Concurrentes: <span id="sim-users" style="color: var(--una-blue); font-size: 1.4rem;">100</span></span>
-      </div>
-      
-      <div class="slider-container">
-        <input type="range" id="slider" min="100" max="8000" step="100" value="100">
-      </div>
-      
-      <div class="sim-metrics">
-        <div class="sim-metric"><span>Conexiones TCP Activas</span><strong id="val-active">350</strong></div>
-        <div class="sim-metric"><span>Sockets en TIME_WAIT</span><strong id="val-wait" style="color: var(--warning);">15</strong></div>
-        <div class="sim-metric"><span>Consumo de Puertos Efímeros</span><strong id="val-percent">2%</strong></div>
-      </div>
-      
-      <div class="port-visualizer" id="port-grid"></div>
-      
-      <div id="sim-alert" class="sim-alert" style="background: #f8fafc; color: var(--text-main); border-color: var(--border-light);">
-        🟢 11:59 PM - Capa 4 operando normalmente. Gran disponibilidad de puertos lógicos.
-      </div>
-    </div>
-  </div>
-
-  <!-- SLIDE 8: SOLUCIONES -->
-  <div class="slide">
-    <div class="badge-category">4. Ingeniería y Soluciones</div>
-    <h2>Mitigación del Port Exhaustion</h2>
-    <div class="layout-3col">
-      <div class="card">
-        <h3>1. Tuning del Kernel (Capa 4)</h3>
-        <p style="font-size: 1.05rem;">Ajustes en los parámetros <code>sysctl</code> del servidor Linux para la capa TCP:</p>
-        <div class="code-box" style="font-size: 0.9rem; padding: 12px;">
-          net.ipv4.tcp_tw_reuse = 1<br>
-          net.ipv4.ip_local_port_range = 1024 65000
+      <!-- Controles -->
+      <div class="sim-controls">
+        <div class="control-group">
+          <label>1. Estudiantes (Hora) <span class="val-badge" id="lbl-users">1000</span></label>
+          <input type="range" id="slider-users" min="1000" max="15000" step="500" value="1000">
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Demanda de la población web (~15k).</p>
         </div>
-        <p style="font-size: 1rem; margin-top: 15px;">Permite reciclar sockets en <code>TIME_WAIT</code> si es seguro (Timestamps), y expande drásticamente el rango de puertos disponibles.</p>
+        <div class="control-group">
+          <label>2. Tasa de F5 (Pánico) <span class="val-badge" id="lbl-f5">Normal (1x)</span></label>
+          <input type="range" id="slider-f5" min="1" max="5" step="1" value="1">
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Recargas que envían sockets a TIME_WAIT.</p>
+        </div>
+        <div class="control-group" style="background: #f8fafc; padding: 10px; border-radius: 4px; border: 1px solid var(--border-light);">
+          <label>3. Reutilización de puertos <span class="val-badge" id="lbl-fix">Off</span></label>
+          <input type="range" id="slider-fix" min="0" max="1" step="1" value="0">
+        </div>
+        <button id="btn-auto" class="btn-auto" onclick="playScenario()">▶ Reproducir Escenario</button>
+        <div id="guide-text" style="font-size: 0.9rem; color: var(--una-blue); font-weight: 500; background: #eff6ff; padding: 10px; border-radius: 4px; border: 1px solid #bfdbfe; margin-top: auto;">
+          Explica el estado actual de la red mientras avanzas.
+        </div>
       </div>
-      <div class="card">
-        <h3>2. Balanceo de Carga L4/L7</h3>
-        <p style="font-size: 1.05rem;">La solución arquitectónica definitiva:</p>
-        <ul style="font-size: 1rem;">
-          <li>Implementar Proxies Inversos (Nginx / HAProxy).</li>
-          <li>En lugar de que un solo OS soporte los 65k puertos, se distribuye la tabla de estados TCP entre un cluster de múltiples servidores web.</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3 style="color: var(--una-gold);">3. Solución Administrativa</h3>
-        <p style="color: var(--text-muted); font-size: 1.05rem;">Toda red tiene un límite matemático absoluto. Para evitar la denegación de servicio automática de la medianoche, se debe implementar una <b>Matrícula Escalonada</b>: dividir el acceso por facultades o semestres en distintos bloques horarios para aplanar la curva de peticiones TCP.</p>
+      
+      <!-- Visualizador -->
+      <div class="sim-view">
+        <div class="sim-metrics">
+          <div class="sim-metric"><span style="color:#10b981;">Puertos Libres</span><strong id="val-free" style="color:#10b981;">28,000</strong></div>
+          <div class="sim-metric"><span style="color:#3b82f6;">Activos (Alumnos)</span><strong id="val-est" style="color:#3b82f6;">0</strong></div>
+          <div class="sim-metric"><span style="color:#f59e0b;">TIME_WAIT</span><strong id="val-wait" style="color:#f59e0b;">0</strong></div>
+          <div class="sim-metric"><span style="color:#ef4444;">Timeouts (Caídas)</span><strong id="val-drop" style="color:#ef4444;">0</strong></div>
+        </div>
+
+        <div class="legend">
+          <div><div class="dot-legend" style="background: #10b981;"></div> Libres</div>
+          <div><div class="dot-legend" style="background: #3b82f6;"></div> Activos</div>
+          <div><div class="dot-legend" style="background: #f59e0b;"></div> Bloqueados</div>
+          <div><div class="dot-legend" style="background: #ef4444;"></div> Colapso</div>
+        </div>
+
+        <div class="port-visualizer" id="port-grid"></div>
+
+        <div class="sim-alert" id="sim-alert" style="background: #f0fdf4; color: #166534; border-color: #bbf7d0;">
+          🟢 ESTADO NORMAL: Tráfico regular. Hay recursos lógicos de sobra.
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Controles de Footer -->
+  
+<div class="slide tight"><div class="badge-category" style="margin-bottom:.7rem">Parte IV · Cierre</div><h2 style="font-size:1.8rem;margin-bottom:10px">Conclusiones y recomendaciones</h2><div class="lg"><div class="lb "><h4>Conclusiones</h4><ol><li>El colapso se origina en la Capa 4: el límite de puertos efímeros se alcanza por el pico de conexiones y por el TIME_WAIT de los reintentos.</li><li>No es una caída del servidor: es una falla lógica de red, con procesador y memoria normales.</li><li>Las demás capas contribuyen o sufren el efecto: tabla del NAT (Capa 3), conexiones a la base de datos (Capa 7), pérdida de sesión (Capa 5) y cifrado repetido (Capa 6).</li></ol></div><div class="lb "><h4>Recomendaciones</h4><ol><li>Combinar ajustes técnicos (pool, reutilización, rangos), arquitectura (balanceo de carga) y gestión (matrícula escalonada).</li><li>Medir antes de actuar: monitorear los estados TCP, la tabla del NAT y el uso del enlace en el próximo pico.</li><li>Probar la solución con pruebas de carga antes de la siguiente matrícula.</li></ol></div></div></div>
+<div class="slide tight"><div class="badge-category" style="margin-bottom:.7rem">Parte IV · Cierre</div><h2 style="font-size:1.8rem;margin-bottom:10px">Referencias bibliográficas</h2><ul style="font-size:1rem"><li style="font-size:.98rem;margin-bottom:8px">Kurose, J. F., &amp; Ross, K. W. (2017). <i>Computer networking: A top-down approach</i> (7th ed.). Pearson.</li><li style="font-size:.98rem;margin-bottom:8px">Tanenbaum, A. S., &amp; Wetherall, D. J. (2012). <i>Redes de computadoras</i> (5.ª ed.). Pearson Educación.</li><li style="font-size:.98rem;margin-bottom:8px">Fall, K. R., &amp; Stevens, W. R. (2011). <i>TCP/IP illustrated, Volume 1: The protocols</i> (2nd ed.). Addison-Wesley.</li><li style="font-size:.98rem;margin-bottom:8px">Eddy, W. (2022). <i>Transmission Control Protocol (TCP)</i> (RFC 9293). IETF.</li><li style="font-size:.98rem;margin-bottom:8px">Borman, D., Braden, B., Jacobson, V., &amp; Scheffenegger, R. (2014). <i>TCP extensions for high performance</i> (RFC 7323). IETF.</li><li style="font-size:.98rem;margin-bottom:8px">Srisuresh, P., &amp; Egevang, K. (2001). <i>Traditional IP Network Address Translator (Traditional NAT)</i> (RFC 3022). IETF.</li><li style="font-size:.98rem;margin-bottom:8px">Rescorla, E. (2018). <i>The Transport Layer Security (TLS) protocol version 1.3</i> (RFC 8446). IETF.</li></ul></div>
+
+<!-- Controles de Footer -->
   <div class="footer-controls">
-    <div class="branding">ADMINISTRACIÓN DE REDES • INGENIERÍA ESTADÍSTICA E INFORMÁTICA • UNA PUNO</div>
+    <div class="branding">ADMINISTRACIÓN DE REDES • INGENIERÍA INFORMÁTICA • UNA PUNO</div>
     <div style="display: flex; gap: 12px;">
       <button class="btn-nav" onclick="prevSlide()">← Atrás</button>
       <button class="btn-nav" onclick="nextSlide()" style="background: var(--una-blue); color: white; border: none;">Siguiente Diapositiva →</button>
@@ -428,7 +405,7 @@
 </div>
 
 <script>
-  // --- CONTROL DE NAVEGACIÓN ---
+  // --- CONTROL DE NAVEGACIÓN DE DIAPOSITIVAS ---
   const slides = document.querySelectorAll('.slide');
   const progressBar = document.getElementById('progress');
   let currentSlide = 0;
@@ -445,95 +422,176 @@
     progressBar.style.width = `${progress}%`;
   }
 
-  function nextSlide() {
-    if (currentSlide < slides.length - 1) {
-      currentSlide++;
-      updateSlides();
-    }
-  }
-
-  function prevSlide() {
-    if (currentSlide > 0) {
-      currentSlide--;
-      updateSlides();
-    }
-  }
+  function nextSlide() { if (currentSlide < slides.length - 1) { currentSlide++; updateSlides(); } }
+  function prevSlide() { if (currentSlide > 0) { currentSlide--; updateSlides(); } }
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight' || e.key === 'Space') nextSlide();
+    if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
     if (e.key === 'ArrowLeft') prevSlide();
   });
-
   updateSlides();
 
-  // --- LÓGICA DEL SIMULADOR DE CAPA 4 ---
-  const slider = document.getElementById('slider');
-  const portGrid = document.getElementById('port-grid');
-  const totalDots = 100; // 100 puntos = 100% de los puertos efímeros (~28,000 puertos reales)
+  // --- LÓGICA DEL SIMULADOR INTEGRADO ---
+  const MAX_PORTS = 28000;
+  const VISUAL_DOTS = 400; // 400 puntos en la cuadrícula visual
 
-  // Dibujar cuadrícula
-  for (let i = 0; i < totalDots; i++) {
-    const dot = document.createElement('div');
+  const sliderUsers = document.getElementById('slider-users');
+  const sliderF5 = document.getElementById('slider-f5');
+  const sliderFix = document.getElementById('slider-fix');
+  
+  const lblUsers = document.getElementById('lbl-users');
+  const lblF5 = document.getElementById('lbl-f5');
+  const lblFix = document.getElementById('lbl-fix');
+
+  const valFree = document.getElementById('val-free');
+  const valEst = document.getElementById('val-est');
+  const valWait = document.getElementById('val-wait');
+  const valDrop = document.getElementById('val-drop');
+
+  const portGrid = document.getElementById('port-grid');
+  const simAlert = document.getElementById('sim-alert');
+  const guideText = document.getElementById('guide-text');
+  const btnAuto = document.getElementById('btn-auto');
+
+  for (let i = 0; i < VISUAL_DOTS; i++) {
+    let dot = document.createElement('div');
     dot.className = 'port-dot';
     portGrid.appendChild(dot);
   }
   const dots = document.querySelectorAll('.port-dot');
 
-  function updateSim() {
-    const users = parseInt(slider.value);
-    
-    // Reloj dinámico
-    let timeStr = "11:59 PM";
-    if(users > 800 && users <= 2000) timeStr = "12:00 AM";
-    if(users > 2000 && users <= 4500) timeStr = "12:02 AM";
-    if(users > 4500 && users <= 6500) timeStr = "12:04 AM";
-    if(users > 6500) timeStr = "12:08 AM";
-    
-    // Modelado Matemático Capa 4
-    let activeConns = Math.floor(users * 3.5); 
-    // F5 Spam eleva TIME_WAIT exponencialmente
-    let waitConns = Math.floor(Math.pow(users, 2.1) / 1500); 
-    
-    // Capacidad max = 28,000
-    let totalConns = activeConns + waitConns;
-    let percent = Math.min(100, Math.floor((totalConns / 28000) * 100));
-    
-    // Textos
-    document.getElementById('sim-users').innerText = users.toLocaleString();
-    document.getElementById('sim-time').innerText = timeStr;
-    document.getElementById('val-active').innerText = activeConns.toLocaleString();
-    document.getElementById('val-wait').innerText = waitConns.toLocaleString();
-    document.getElementById('val-percent').innerText = percent + "%";
+  const f5Text = { 1: "Normal (1x)", 2: "Ansioso (2x)", 3: "Dando F5 (3x)", 4: "Spam F5 (4x)", 5: "Pánico (5x)" };
 
-    // Puntos Visuales
-    let activeDots = Math.floor(percent * 0.25); 
-    let waitDots = percent - activeDots; 
+  function calculateSimulation() {
+    let users = parseInt(sliderUsers.value); 
+    let f5Level = parseInt(sliderF5.value);      
+    let fixActive = parseInt(sliderFix.value) === 1;
+
+    let timeStr = "Día Normal";
+    if(users > 3000 && users <= 8000) timeStr = "11:59 PM";
+    if(users > 8000) timeStr = "12:00 AM (Pico)";
     
-    dots.forEach((dot, i) => {
-      dot.className = 'port-dot'; 
-      if (i < activeDots) {
-        dot.classList.add('used'); // Rojo
-      } else if (i < (activeDots + waitDots)) {
-        dot.classList.add('wait'); // Naranja
+    lblUsers.innerText = `${users.toLocaleString()} (${timeStr})`;
+    lblF5.innerText = f5Text[f5Level];
+    lblFix.innerText = fixActive ? "ON" : "Off";
+
+    // 1 user = ~2 connections
+    let estConns = users * 2;
+    // TIME_WAIT multiplier
+    let waitConns = Math.floor(estConns * (f5Level * 0.7));
+
+    if (fixActive) { waitConns = Math.floor(waitConns * 0.1); } // Solución
+
+    let totalDemand = estConns + waitConns;
+    let droppedConns = 0;
+    
+    if (totalDemand > MAX_PORTS) {
+      droppedConns = totalDemand - MAX_PORTS;
+      if (waitConns > MAX_PORTS) {
+        waitConns = MAX_PORTS;
+        estConns = 0; 
+      } else {
+        estConns = MAX_PORTS - waitConns;
+      }
+    }
+
+    let freeConns = MAX_PORTS - (estConns + waitConns);
+
+    valFree.innerText = freeConns.toLocaleString();
+    valEst.innerText = estConns.toLocaleString();
+    valWait.innerText = waitConns.toLocaleString();
+    valDrop.innerText = droppedConns.toLocaleString();
+
+    let pctEst = estConns / MAX_PORTS;
+    let pctWait = waitConns / MAX_PORTS;
+
+    let dotsEst = Math.floor(pctEst * VISUAL_DOTS);
+    let dotsWait = Math.floor(pctWait * VISUAL_DOTS);
+    
+    dots.forEach((dot, index) => {
+      dot.style.background = '#10b981'; // Green
+      if (droppedConns > 0 && index >= (VISUAL_DOTS - Math.min(60, Math.floor((droppedConns/5000)*VISUAL_DOTS)))) {
+        dot.style.background = '#ef4444'; // Red
+      } else if (index < dotsWait) {
+        dot.style.background = '#f59e0b'; // Orange
+      } else if (index < (dotsWait + dotsEst)) {
+        dot.style.background = '#3b82f6'; // Blue
       }
     });
 
-    // Alertas
-    const alertBox = document.getElementById('sim-alert');
-    if (percent < 45) {
-      alertBox.style.background = '#f8fafc'; alertBox.style.color = '#0f172a'; alertBox.style.borderColor = '#e2e8f0';
-      alertBox.innerText = `🟢 ${timeStr} - Capa 4 operando normalmente. Amplia disponibilidad de puertos efímeros en el OS.`;
-    } else if (percent < 90) {
-      alertBox.style.background = '#fffbeb'; alertBox.style.color = '#b45309'; alertBox.style.borderColor = '#fde68a';
-      alertBox.innerText = `🟠 ${timeStr} - ALERTA: Acumulación de TIME_WAIT por F5 consecutivo. La red comienza a experimentar latencia.`;
-    } else {
-      alertBox.style.background = '#fef2f2'; alertBox.style.color = '#b91c1c'; alertBox.style.borderColor = '#fecaca';
-      alertBox.innerText = `🔴 ${timeStr} - ¡PORT EXHAUSTION! La Cuádrupla TCP está saturada. El OS bloquea nuevos sockets (Timeout).`;
+    if (fixActive) {
+      guideText.innerHTML = "<b>Solución Aplicada:</b> El sistema reutiliza los puertos de forma automática. Los bloqueos naranjas desaparecen, dejando espacio verde para que todos entren.";
+      simAlert.style.background = "#f0fdf4"; simAlert.style.color = "#166534"; simAlert.style.borderColor = "#bbf7d0";
+      simAlert.innerText = "✅ SISTEMA OPTIMIZADO: El servidor recicla los puertos efímeros rápidamente. No hay colapso.";
+    } 
+    else if (droppedConns > 0) {
+      guideText.innerHTML = "<b>El Colapso:</b> La tabla del servidor está llena de basura en estado TIME_WAIT (naranja). Al no haber puertos libres, el servidor rechaza automáticamente cualquier intento nuevo. Este es el Port Exhaustion.";
+      simAlert.style.background = "#fef2f2"; simAlert.style.color = "#b91c1c"; simAlert.style.borderColor = "#fecaca";
+      simAlert.innerText = "🔴 PORT EXHAUSTION: Capacidad de Capa 4 excedida. Nuevas peticiones rechazadas (Timeouts).";
+    } 
+    else if (waitConns > estConns && users > 3000) {
+      guideText.innerHTML = "<b>El problema del F5:</b> Los alumnos que abortan la carga generan que los puertos lógicos se congelen (naranja). El servidor empieza a quedarse sin puertos disponibles.";
+      simAlert.style.background = "#fffbeb"; simAlert.style.color = "#b45309"; simAlert.style.borderColor = "#fde68a";
+      simAlert.innerText = "🟠 ALERTA: La desesperación (F5) está congelando los puertos del servidor en TIME_WAIT.";
+    } 
+    else {
+      guideText.innerHTML = "Explica que en un día normal, vemos que hay muchos puertos verdes (libres) y los azules (alumnos) fluyen tranquilamente a través de la red.";
+      simAlert.style.background = "#f0fdf4"; simAlert.style.color = "#166534"; simAlert.style.borderColor = "#bbf7d0";
+      simAlert.innerText = "🟢 ESTADO NORMAL: Tráfico regular. Hay recursos lógicos de sobra.";
     }
   }
 
-  slider.addEventListener('input', updateSim);
-  updateSim(); 
+  // --- AUTOMATIZACIÓN DE LA SIMULACIÓN ---
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+  async function playScenario() {
+    btnAuto.disabled = true;
+    btnAuto.innerText = "Reproduciendo Animación...";
+    
+    // Reset
+    sliderUsers.value = 1000; sliderF5.value = 1; sliderFix.value = 0; calculateSimulation();
+    sliderUsers.disabled = true; sliderF5.disabled = true; sliderFix.disabled = true;
+
+    await sleep(1500);
+    
+    // 1. Llegan las 12:00 AM
+    for(let i=1000; i<=15000; i+=1000) {
+      sliderUsers.value = i;
+      calculateSimulation();
+      await sleep(100);
+    }
+
+    await sleep(2000);
+
+    // 2. Empieza el F5
+    for(let i=1; i<=5; i++) {
+      sliderF5.value = i;
+      calculateSimulation();
+      await sleep(1000);
+    }
+
+    btnAuto.innerText = "Colapso activo... (Tienes tiempo para explicar)";
+    await sleep(6000);
+
+    // 3. Aplicar Solución
+    btnAuto.innerText = "Activando reutilización de puertos...";
+    await sleep(1000);
+    sliderFix.value = 1;
+    calculateSimulation();
+
+    await sleep(2000);
+    
+    // Restaurar
+    btnAuto.disabled = false;
+    btnAuto.innerText = "▶ Reproducir Escenario";
+    sliderUsers.disabled = false; sliderF5.disabled = false; sliderFix.disabled = false;
+  }
+
+  sliderUsers.addEventListener('input', calculateSimulation);
+  sliderF5.addEventListener('input', calculateSimulation);
+  sliderFix.addEventListener('input', calculateSimulation);
+
+  calculateSimulation();
 </script>
 </body>
 </html>
