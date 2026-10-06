@@ -27,19 +27,20 @@
     background-color: var(--bg-page);
     color: var(--text-main);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    overflow: hidden;
+    overflow: hidden; /* Previene scroll general, el scroll será por diapositiva si es necesario */
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    width: 100vw;
   }
 
   /* Contenedor Principal de la Presentación */
   #deck {
     position: relative;
-    width: 92vw;
+    width: 95vw;
     max-width: 1400px;
-    height: 88vh;
+    height: 90vh;
     background: var(--bg-slide);
     border-radius: 12px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.02);
@@ -47,38 +48,26 @@
     display: flex;
     flex-direction: column;
     border: 1px solid var(--border-light);
-    background-color: var(--bg-slide); /* Fondo forzado para fullscreen */
   }
 
-  /* Estilos para cuando se activa la pantalla completa */
-  #deck:fullscreen {
-    width: 100vw;
-    height: 100vh;
-    max-width: 100%;
-    border-radius: 0;
-    border: none;
-    box-shadow: none;
-  }
-  #deck:-webkit-full-screen {
-    width: 100vw;
-    height: 100vh;
-    max-width: 100%;
-    border-radius: 0;
-    border: none;
-    box-shadow: none;
-  }
+  /* Estilos Pantalla Completa (Fullscreen) */
+  #deck:fullscreen { width: 100vw; height: 100vh; max-width: 100%; border-radius: 0; border: none; }
+  #deck:-webkit-full-screen { width: 100vw; height: 100vh; max-width: 100%; border-radius: 0; border: none; }
+  #deck:-ms-fullscreen { width: 100vw; height: 100vh; max-width: 100%; border-radius: 0; border: none; }
 
   /* Diapositivas */
   .slide {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    padding: 60px 80px 90px 80px;
+    padding: clamp(30px, 4vw, 60px) clamp(20px, 5vw, 80px) 110px clamp(20px, 5vw, 80px);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.4s ease, transform 0.4s ease;
     transform: translateY(15px);
     display: flex;
     flex-direction: column;
+    overflow-y: auto; /* Scroll interno para pantallas pequeñas */
+    overflow-x: hidden;
   }
   .slide.active {
     opacity: 1;
@@ -86,203 +75,145 @@
     transform: translateY(0);
   }
 
-  /* Tipografía */
+  /* Tipografía Fluida (clamp permite adaptación automática a la pantalla) */
   .badge-category {
     align-self: flex-start;
     background: #ffffff;
     color: var(--una-blue);
     padding: 6px 14px;
     border-radius: 4px;
-    font-size: 0.85rem;
+    font-size: clamp(0.75rem, 2vw, 0.85rem);
     font-weight: 700;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     border: 1px solid var(--border-light);
   }
-  h1 { font-size: 3.5rem; line-height: 1.1; margin: 0 0 1.5rem; color: var(--una-blue); font-weight: 800; letter-spacing: -1px; }
-  h2 { font-size: 2.4rem; margin: 0 0 1rem; color: var(--text-main); font-weight: 700; letter-spacing: -0.5px; }
-  h3 { font-size: 1.4rem; margin: 0 0 0.8rem; color: var(--una-blue); font-weight: 700; }
-  p, li { font-size: 1.2rem; line-height: 1.6; color: var(--text-muted); margin-bottom: 15px;}
+  h1 { font-size: clamp(2rem, 5vw, 3.8rem); line-height: 1.1; margin: 0 0 1.5rem; color: var(--una-blue); font-weight: 800; letter-spacing: -1px; }
+  h2 { font-size: clamp(1.5rem, 4vw, 2.4rem); margin: 0 0 1rem; color: var(--text-main); font-weight: 700; letter-spacing: -0.5px; }
+  h3 { font-size: clamp(1.2rem, 3vw, 1.4rem); margin: 0 0 0.8rem; color: var(--una-blue); font-weight: 700; }
+  p, li { font-size: clamp(1rem, 2vw, 1.2rem); line-height: 1.6; color: var(--text-muted); margin-bottom: 15px;}
   ul { margin-top: 5px; padding-left: 25px; }
   
-  /* Layouts */
-  .layout-split {
-    display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 60px;
-    flex-grow: 1;
-    align-items: center;
-  }
-  .layout-split-even {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 50px;
-    flex-grow: 1;
-  }
-  .layout-3col {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-    margin-top: 1rem;
-  }
+  /* Layouts Automáticos */
+  .layout-split { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: clamp(20px, 4vw, 60px); flex-grow: 1; align-items: center; }
+  .layout-split-even { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 4vw, 50px); flex-grow: 1; }
+  .layout-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(15px, 3vw, 30px); margin-top: 1rem; }
   
   /* Imágenes */
   .image-container {
-    width: 100%;
-    height: 100%;
-    min-height: 380px;
-    border-radius: 8px;
-    overflow: hidden;
-    position: relative;
+    width: 100%; height: 100%; min-height: 250px;
+    border-radius: 8px; overflow: hidden; position: relative;
     border: 1px solid var(--border-light);
   }
-  .image-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    filter: contrast(1.05) brightness(0.95);
-  }
+  .image-container img { width: 100%; height: 100%; object-fit: cover; display: block; filter: contrast(1.05) brightness(0.95); }
 
-  /* Tarjetas y Cajas Blancas/Claras */
-  .card {
-    background: #ffffff;
-    border: 1px solid var(--border-light);
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-  }
+  /* Tarjetas y Cajas */
+  .card { background: #ffffff; border: 1px solid var(--border-light); padding: clamp(15px, 3vw, 30px); border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
   .highlight-box {
-    background: #f8fafc;
-    border-left: 4px solid var(--una-blue);
-    padding: 18px 25px;
-    margin: 20px 0;
-    font-weight: 500;
-    color: var(--una-blue);
-    font-size: 1.25rem;
-    border-right: 1px solid var(--border-light);
-    border-top: 1px solid var(--border-light);
-    border-bottom: 1px solid var(--border-light);
+    background: #f8fafc; border-left: 4px solid var(--una-blue);
+    padding: clamp(12px, 2vw, 18px) clamp(15px, 3vw, 25px); margin: 20px 0;
+    font-weight: 500; color: var(--una-blue); font-size: clamp(1.05rem, 2vw, 1.25rem);
+    border-right: 1px solid var(--border-light); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light);
   }
   
-  /* Código estilo Editorial */
   .code-box {
-    background: #f1f5f9;
-    color: var(--text-main);
-    font-family: 'Courier New', Courier, monospace;
-    padding: 20px;
-    border-radius: 6px;
-    font-size: 1.05rem;
-    margin-top: 15px;
-    line-height: 1.6;
-    overflow-x: auto;
-    border: 1px solid var(--border-light);
+    background: #f1f5f9; color: var(--text-main); font-family: 'Courier New', Courier, monospace;
+    padding: clamp(12px, 2vw, 20px); border-radius: 6px; font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+    margin-top: 15px; line-height: 1.6; overflow-x: auto; border: 1px solid var(--border-light);
   }
 
   /* Controles Inferiores */
   .footer-controls {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 75px;
-    background: #ffffff;
-    border-top: 1px solid var(--border-light);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 50px;
-    z-index: 10;
+    position: absolute; bottom: 0; left: 0; right: 0;
+    min-height: 75px; background: #ffffff; border-top: 1px solid var(--border-light);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px clamp(15px, 4vw, 50px); z-index: 10; flex-wrap: wrap; gap: 10px;
   }
-  .footer-controls .branding { font-size: 0.95rem; font-weight: 700; color: #94a3b8; letter-spacing: 1px; }
+  .footer-controls .branding { font-size: clamp(0.8rem, 1.5vw, 0.95rem); font-weight: 700; color: #94a3b8; letter-spacing: 1px; text-align: center; }
+  
+  .btn-nav-group { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: center; }
   .btn-nav {
-    background: #ffffff;
-    border: 1px solid var(--border-light);
-    color: var(--text-main);
-    padding: 10px 24px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 1rem;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    background: #ffffff; border: 1px solid var(--border-light); color: var(--text-main);
+    padding: clamp(6px, 1.5vw, 10px) clamp(12px, 2vw, 24px); border-radius: 4px; cursor: pointer;
+    font-weight: 600; font-size: clamp(0.85rem, 1.5vw, 1rem); transition: all 0.2s;
+    display: flex; align-items: center; gap: 6px; white-space: nowrap;
   }
   .btn-nav:hover { background: #f1f5f9; border-color: #cbd5e1; }
   .btn-fs { background: #f8fafc; color: var(--una-blue); border-color: #cbd5e1; }
   .btn-fs:hover { background: #e2e8f0; }
   
-  .progress-bar-container {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 4px;
-    background: #f1f5f9;
-    z-index: 20;
-  }
+  .progress-bar-container { position: absolute; top: 0; left: 0; right: 0; height: 4px; background: #f1f5f9; z-index: 20; }
   .progress-bar { height: 100%; background: var(--una-blue); width: 0%; transition: width 0.3s ease; }
 
   /* Elementos del Simulador (Slide 7) */
   .sim-panel {
-    background: #ffffff;
-    border: 1px solid var(--border-light);
-    padding: 30px;
-    border-radius: 8px;
-    display: flex;
-    gap: 30px;
+    background: #ffffff; border: 1px solid var(--border-light); padding: clamp(15px, 3vw, 30px);
+    border-radius: 8px; display: flex; gap: clamp(15px, 3vw, 30px); flex-wrap: wrap;
   }
-  .sim-controls {
-    flex: 0 0 350px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  .sim-view {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
+  .sim-controls { flex: 1 1 300px; display: flex; flex-direction: column; gap: 15px; }
+  .sim-view { flex: 2 1 400px; display: flex; flex-direction: column; }
+  
   .control-group label { display: flex; justify-content: space-between; font-weight: 700; font-size: 0.95rem; margin-bottom: 8px; color: var(--text-main); }
   .control-group input[type="range"] { width: 100%; accent-color: var(--una-blue); cursor: pointer; height: 6px; }
   .val-badge { background: #f1f5f9; padding: 2px 8px; border-radius: 4px; color: var(--una-blue); font-family: monospace; font-size: 0.9rem; border: 1px solid var(--border-light); }
   
   .btn-auto {
-    background: var(--una-blue); color: white; border: none; padding: 12px; font-size: 1rem; font-weight: 700; border-radius: 6px; cursor: pointer; transition: background 0.2s; margin-top: 10px;
+    background: var(--una-blue); color: white; border: none; padding: 12px; font-size: 1rem; font-weight: 700; border-radius: 6px; cursor: pointer; transition: background 0.2s; margin-top: auto;
   }
   .btn-auto:hover { background: #172554; }
   .btn-auto:disabled { background: #94a3b8; cursor: not-allowed; }
 
-  .sim-metrics { display: flex; justify-content: space-between; margin-bottom: 20px; padding: 15px; background: #ffffff; border-radius: 6px; border: 1px solid var(--border-light); }
-  .sim-metric { text-align: center; }
-  .sim-metric span { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; font-weight: 600;}
-  .sim-metric strong { font-size: 2.2rem; color: var(--una-blue); font-weight: 800; line-height: 1; font-family: monospace; }
+  .sim-metrics { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; padding: 15px; background: #ffffff; border-radius: 6px; border: 1px solid var(--border-light); }
+  .sim-metric { text-align: center; flex: 1 1 45%; }
+  .sim-metric span { display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; font-weight: 600;}
+  .sim-metric strong { font-size: clamp(1.5rem, 3vw, 2.2rem); color: var(--una-blue); font-weight: 800; line-height: 1; font-family: monospace; }
   
-  .port-visualizer { display: grid; grid-template-columns: repeat(40, 1fr); gap: 3px; background: #f8fafc; padding: 15px; border-radius: 6px; border: 1px solid var(--border-light); }
+  .port-visualizer { display: grid; grid-template-columns: repeat(40, 1fr); gap: 2px; background: #f8fafc; padding: clamp(10px, 2vw, 15px); border-radius: 6px; border: 1px solid var(--border-light); }
   .port-dot { aspect-ratio: 1/1; background: #10b981; border-radius: 50%; transition: background 0.2s; }
   
-  .sim-alert { margin-top: 15px; padding: 15px; border-radius: 6px; font-weight: 600; text-align: center; border: 1px solid transparent; font-size: 1.05rem; transition: all 0.3s;}
+  .sim-alert { margin-top: 15px; padding: 15px; border-radius: 6px; font-weight: 600; text-align: center; border: 1px solid transparent; font-size: clamp(0.9rem, 2vw, 1.05rem); transition: all 0.3s;}
 
-  .legend { display: flex; gap: 15px; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 10px; justify-content: flex-end;}
+  .legend { display: flex; gap: 10px; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 10px; justify-content: flex-end; flex-wrap: wrap;}
   .legend div { display: flex; align-items: center; gap: 5px; }
   .dot-legend { width: 10px; height: 10px; border-radius: 50%; }
 
+  /* -------------------------------------------
+     MEDIA QUERIES (RESPONSIVE DESIGN)
+     ------------------------------------------- */
+  @media (max-width: 1024px) {
+    .layout-3col { grid-template-columns: 1fr; }
+    .sim-panel { flex-direction: column; }
+    .sim-view { order: -1; /* Poner el visualizador arriba en tablets */ }
+  }
+
+  @media (max-width: 768px) {
+    #deck { width: 100vw; height: 100vh; border-radius: 0; border: none; }
+    .layout-split, .layout-split-even { grid-template-columns: 1fr; gap: 25px; }
+    .footer-controls { flex-direction: column; justify-content: center; text-align: center; }
+    .footer-controls .branding { display: none; /* Ocultar branding en móvil para dar espacio a botones */ }
+    .btn-nav-group { width: 100%; justify-content: space-between; }
+    .port-visualizer { grid-template-columns: repeat(20, 1fr); /* Puntos más grandes en móvil */ }
+    .image-container { min-height: 200px; max-height: 250px;}
+  }
 </style>
 </head>
 <body>
 
 <div id="deck">
-  <!-- Barra de progreso general -->
+  <!-- Barra de progreso -->
   <div class="progress-bar-container"><div class="progress-bar" id="progress"></div></div>
 
   <!-- SLIDE 1: PORTADA -->
   <div class="slide active">
     <div class="layout-split">
-      <div style="padding-right: 20px;">
+      <div>
         <div class="badge-category">Administración de Redes · VII Ciclo</div>
-        <h1 style="font-size: 3.8rem;">El Colapso de la Medianoche</h1>
-        <p style="font-size: 1.4rem; margin-bottom: 2.5rem; color: var(--text-main);">Análisis técnico de la <b>Capa 4 (Transporte)</b> y el fenómeno de <i>Port Exhaustion</i> durante las matrículas de la Universidad Nacional del Altiplano.</p>
-        <div style="border-top: 1px solid var(--border-light); padding-top: 1.5rem;">
+        <h1>El Colapso de la Medianoche</h1>
+        <p>Análisis técnico de la <b>Capa 4 (Transporte)</b> y el fenómeno de <i>Port Exhaustion</i> durante las matrículas de la Universidad Nacional del Altiplano.</p>
+        <div style="border-top: 1px solid var(--border-light); padding-top: 1.5rem; margin-top: 2rem;">
           <h3 style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px;">Equipo de Investigación</h3>
-          <p style="margin: 0; font-weight: 700; color: var(--una-blue); font-size: 1.3rem;">
+          <p style="margin: 0; font-weight: 700; color: var(--una-blue);">
             Alex Arias R. &nbsp;•&nbsp; Raul Chura C. &nbsp;•&nbsp; Antony Flores N.
           </p>
         </div>
@@ -293,7 +224,7 @@
     </div>
   </div>
 
-  <!-- SLIDE 2: TEORÍA 1 - SOCKETS Y PUERTOS -->
+  <!-- SLIDE 2: TEORÍA 1 -->
   <div class="slide">
     <div class="badge-category">1. Teoría de la Capa 4</div>
     <h2>Multiplexación y Direccionamiento Lógico</h2>
@@ -312,97 +243,94 @@
           { IP_Estudiante, <span style="color: var(--una-blue); font-weight:bold;">Puerto_Efímero</span>, <br>
             IP_Servidor_UNA, Puerto_443 }
         </div>
-        <p style="margin-top: 15px; font-size: 1.05rem;">Si una residencia universitaria entera sale a Internet por la misma IP Pública (NAT), <b>la única variable que el servidor usa para distinguir a los alumnos es el Puerto Efímero</b>. Esto convierte a los puertos en un recurso finito crítico.</p>
+        <p style="margin-top: 15px;">Si una residencia universitaria entera sale a Internet por la misma IP Pública (NAT), <b>la única variable que el servidor usa para distinguir a los alumnos es el Puerto Efímero</b>. Esto lo convierte en un recurso finito crítico.</p>
       </div>
     </div>
   </div>
 
-  <!-- SLIDE 3: TEORÍA 2 - SEGMENTACIÓN Y FLAGS -->
+  <!-- SLIDE 3: TEORÍA 2 -->
   <div class="slide">
     <div class="badge-category">1. Teoría de la Capa 4</div>
     <h2>Segmentación y Banderas de Control (Flags TCP)</h2>
     <div class="layout-split">
       <div>
         <p>En la Capa 4, el flujo continuo de datos de la página web se divide en bloques manejables llamados <b>Segmentos</b>. A cada segmento se le añade un encabezado TCP (de 20 a 60 bytes).</p>
-        <p>El mecanismo que permite al servidor saber en qué estado se encuentra la matrícula de un alumno son las <b>Banderas de Control (Flags)</b>, bits específicos dentro del encabezado TCP.</p>
+        <p>El mecanismo que permite al servidor saber en qué estado se encuentra la matrícula de un alumno son las <b>Banderas de Control (Flags)</b>, bits específicos dentro del encabezado.</p>
       </div>
       <div class="card" style="border-left: 4px solid var(--una-blue);">
         <h3 style="margin-bottom: 15px;">Flags críticas en nuestro caso:</h3>
         <ul style="list-style: none; padding-left: 0;">
           <li style="margin-bottom: 12px;"><b>[SYN] Synchronize:</b> Inicia el establecimiento de la sesión. Un estudiante pidiendo entrar.</li>
           <li style="margin-bottom: 12px;"><b>[ACK] Acknowledgment:</b> Confirma la recepción de un segmento (vital para no perder la inscripción del curso).</li>
-          <li style="margin-bottom: 12px;"><b>[FIN] Finish:</b> Solicita el cierre ordenado y formal de la conexión.</li>
-          <li><b style="color: var(--danger);">[RST] Reset:</b> Aborta la conexión inmediatamente por error o saturación (el error que ven los alumnos).</li>
+          <li style="margin-bottom: 12px;"><b>[FIN] Finish:</b> Solicita el cierre ordenado de la conexión.</li>
+          <li><b style="color: var(--danger);">[RST] Reset:</b> Aborta la conexión inmediatamente por error o saturación.</li>
         </ul>
       </div>
     </div>
   </div>
 
-  <!-- SLIDE 4: PROBLEMÁTICA 1 - POBLACIÓN ESTUDIANTIL -->
+  <!-- SLIDE 4: PROBLEMÁTICA 1 -->
   <div class="slide">
     <div class="badge-category">2. Planteamiento del Caso</div>
     <h2>El Contexto Crítico: La Matemática Estudiantil</h2>
     <div class="layout-split">
-      <div class="image-container" style="min-height: 380px;">
+      <div class="image-container">
         <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Estudiante programando de noche">
       </div>
-      <div style="padding-left: 10px;">
-        <p>La UNA Puno alberga aproximadamente a <b>20,000 estudiantes</b> en total. Sin embargo, los alumnos de segunda carrera o aquellos que llevan cursos desaprobados ("jalados") realizan su proceso de manera <b>presencial</b>.</p>
-        
+      <div>
+        <p>La UNA Puno alberga aproximadamente a <b>20,000 estudiantes</b> en total. Los alumnos de segunda carrera o repitentes realizan su proceso presencialmente.</p>
         <div class="highlight-box">
-          Esto deja a un bloque masivo de <b>~15,000 alumnos regulares</b> que dependen exclusivamente del sistema web. El diseño del proceso provoca que todo este bloque intente ingresar exactamente a las <b>12:00 AM</b>.
+          Esto deja a un bloque masivo de <b>~15,000 alumnos regulares</b> que dependen del sistema web. El proceso provoca que todo este bloque intente ingresar exactamente a las <b>12:00 AM</b>.
         </div>
-        
-        <p><b>El Comportamiento de Estrés (F5):</b> Ante la menor lentitud o latencia, el estudiante asume un cuelgue y presiona F5 repetidamente. Esto genera ráfagas masivas de nuevos paquetes SYN, multiplicando el tráfico lógico hacia el servidor.</p>
+        <p><b>El Comportamiento de Estrés (F5):</b> Ante la menor lentitud, el estudiante asume un cuelgue y presiona F5 repetidamente. Esto genera ráfagas masivas de nuevos paquetes SYN, multiplicando el tráfico lógico.</p>
       </div>
     </div>
   </div>
 
-  <!-- SLIDE 5: PROBLEMÁTICA 2 - TIME_WAIT -->
+  <!-- SLIDE 5: PROBLEMÁTICA 2 -->
   <div class="slide">
     <div class="badge-category">2. Planteamiento del Caso</div>
     <h2>La Máquina de Estados TCP: El limbo de TIME_WAIT</h2>
     <div class="layout-split-even">
       <div>
-        <p>El problema principal no radica en abrir conexiones, sino en cerrarlas. Al recargar la página (F5), el sistema debe ejecutar un <b>Teardown de 4 vías (FIN, ACK, FIN, ACK)</b>.</p>
+        <p>El problema no radica en abrir conexiones, sino en cerrarlas. Al recargar la página (F5), se ejecuta un <b>Teardown de 4 vías (FIN, ACK, FIN, ACK)</b>.</p>
         <p>Sin embargo, la Capa 4 del OS <b>NO libera el socket inmediatamente</b>. La conexión ingresa al estado <code>TIME_WAIT</code> (usualmente por 60 segundos).</p>
-        
         <h3 style="margin-top: 20px;">¿Por qué TCP exige esta espera?</h3>
         <ul>
           <li>Garantiza que el último ACK enviado llegó al otro extremo.</li>
-          <li>Evita que paquetes antiguos "retrasados" en la red corrompan la sesión de un futuro estudiante que reciba ese mismo puerto efímero.</li>
+          <li>Evita que paquetes antiguos en la red corrompan la sesión de un futuro estudiante que reciba ese mismo puerto efímero.</li>
         </ul>
       </div>
       <div class="card">
         <h3>Diagnóstico en el Servidor</h3>
-        <p style="font-size: 1.05rem;">Al ejecutar comandos de red en pleno colapso a las 12:05 AM, se observará una tabla de conexiones saturada por "sesiones fantasma":</p>
+        <p>Al ejecutar comandos de red en pleno colapso a las 12:05 AM, se observará una tabla saturada por "sesiones fantasma":</p>
         <div class="code-box">
           ~$ ss -tan | awk '{print $1}' | uniq -c<br><br>
           &nbsp;&nbsp; 842 ESTABLISHED<br>
           &nbsp;&nbsp;&nbsp; 41 SYN_RECV<br>
           <span style="color: var(--danger); font-weight: bold;"> 26540 TIME_WAIT</span>
         </div>
-        <p style="margin-top: 15px; font-size: 1.05rem; color: var(--text-muted);">Los puertos efímeros quedan bloqueados temporalmente por el temporizador estricto de TCP.</p>
+        <p style="margin-top: 15px;">Los puertos efímeros quedan bloqueados por el temporizador estricto de TCP.</p>
       </div>
     </div>
   </div>
 
-  <!-- SLIDE 6: PROBLEMÁTICA 3 - PORT EXHAUSTION -->
+  <!-- SLIDE 6: PROBLEMÁTICA 3 -->
   <div class="slide">
     <div class="badge-category">2. Planteamiento del Caso</div>
     <h2>Port Exhaustion (Agotamiento de Puertos)</h2>
     <div class="layout-split">
       <div class="card" style="border-top: 4px solid var(--danger);">
         <h3 style="color: var(--danger);">El Colapso Técnico (Capa 4)</h3>
-        <p>Un servidor dispone de un rango limitado de puertos efímeros disponibles (por lo general, unos ~28,000 en Linux por defecto).</p>
-        <p>Cuando la suma de las conexiones <code>ESTABLISHED</code> y las retenidas inútilmente en <code>TIME_WAIT</code> alcanzan este tope, <b>la Capa de Transporte agota sus recursos lógicos</b>. El Kernel se ve obligado a rechazar silenciosamente los nuevos paquetes SYN o devolver una bandera <code>RST</code>.</p>
+        <p>Un servidor dispone de un rango limitado de puertos efímeros (unos ~28,000 en Linux).</p>
+        <p>Cuando la suma de <code>ESTABLISHED</code> y <code>TIME_WAIT</code> alcanza este tope, <b>la Capa de Transporte agota sus recursos lógicos</b>. El Kernel rechaza silenciosamente los nuevos paquetes SYN.</p>
       </div>
       <div>
         <h3>Impacto directo en el Estudiante</h3>
-        <ul style="line-height: 1.8;">
-          <li>El navegador arroja errores de <b>Connection Timeout</b> o la pantalla se queda congelada.</li>
-          <li>El servidor físico de la universidad NO está caído (la CPU y la RAM están sanas), pero <b>a nivel lógico de red, el sistema está bloqueado</b>.</li>
-          <li>Los alumnos que lograron entrar pierden la sesión al intentar guardar, porque el servidor web se quedó sin puertos internos para comunicarse con la Base de Datos.</li>
+        <ul>
+          <li>El navegador arroja errores de <b>Connection Timeout</b> o la pantalla se congela.</li>
+          <li>El servidor de la universidad NO está caído (CPU y RAM sanas), pero <b>a nivel lógico de red está bloqueado</b>.</li>
+          <li>Los alumnos adentro pierden la sesión al guardar, porque el servidor web se quedó sin puertos para comunicarse con la Base de Datos interna.</li>
         </ul>
       </div>
     </div>
@@ -411,51 +339,43 @@
   <!-- SLIDE 7: SIMULACIÓN INTERACTIVA -->
   <div class="slide">
     <div class="badge-category">3. Visualización en Tiempo Real</div>
-    <h2 style="margin-bottom: 20px;">Simulador: La demanda de los ~15k Alumnos</h2>
+    <h2>Simulador: La demanda de los ~15k Alumnos</h2>
     
     <div class="sim-panel">
-      <!-- Controles -->
-      <div class="sim-controls">
-        <div class="control-group">
-          <label>1. Estudiantes Online (Hora) <span class="val-badge" id="lbl-users">1000</span></label>
-          <input type="range" id="slider-users" min="1000" max="15000" step="500" value="1000">
-          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Volumen de alumnos intentando acceder.</p>
-        </div>
-        <div class="control-group">
-          <label>2. Tasa de F5 (Pánico) <span class="val-badge" id="lbl-f5">Normal (1x)</span></label>
-          <input type="range" id="slider-f5" min="1" max="5" step="1" value="1">
-          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Recargas masivas que congelan puertos.</p>
-        </div>
-        <div class="control-group" style="background: #f8fafc; padding: 10px; border-radius: 4px; border: 1px solid var(--border-light);">
-          <label>3. Reutilización de puertos <span class="val-badge" id="lbl-fix">Off</span></label>
-          <input type="range" id="slider-fix" min="0" max="1" step="1" value="0">
-        </div>
-        <button id="btn-auto" class="btn-auto" onclick="playScenario()">▶ Reproducir Escenario</button>
-        <div id="guide-text" style="font-size: 0.9rem; color: var(--una-blue); font-weight: 500; background: #eff6ff; padding: 10px; border-radius: 4px; border: 1px solid #bfdbfe; margin-top: auto;">
-          Explica el estado actual de la red mientras avanzas.
-        </div>
-      </div>
-      
       <!-- Visualizador -->
       <div class="sim-view">
         <div class="sim-metrics">
           <div class="sim-metric"><span style="color:#10b981;">Puertos Libres</span><strong id="val-free" style="color:#10b981;">28,000</strong></div>
-          <div class="sim-metric"><span style="color:#3b82f6;">Activos (Alumnos)</span><strong id="val-est" style="color:#3b82f6;">0</strong></div>
+          <div class="sim-metric"><span style="color:#3b82f6;">Activos</span><strong id="val-est" style="color:#3b82f6;">0</strong></div>
           <div class="sim-metric"><span style="color:#f59e0b;">TIME_WAIT</span><strong id="val-wait" style="color:#f59e0b;">0</strong></div>
-          <div class="sim-metric"><span style="color:#ef4444;">Timeouts (Rechazos)</span><strong id="val-drop" style="color:#ef4444;">0</strong></div>
+          <div class="sim-metric"><span style="color:#ef4444;">Timeouts</span><strong id="val-drop" style="color:#ef4444;">0</strong></div>
         </div>
-
         <div class="legend">
           <div><div class="dot-legend" style="background: #10b981;"></div> Libres</div>
           <div><div class="dot-legend" style="background: #3b82f6;"></div> Activos</div>
           <div><div class="dot-legend" style="background: #f59e0b;"></div> Bloqueados</div>
           <div><div class="dot-legend" style="background: #ef4444;"></div> Colapso</div>
         </div>
-
         <div class="port-visualizer" id="port-grid"></div>
-
-        <div class="sim-alert" id="sim-alert" style="background: #f0fdf4; color: #166534; border-color: #bbf7d0;">
-          🟢 ESTADO NORMAL: Tráfico regular. Hay recursos lógicos de sobra.
+        <div class="sim-alert" id="sim-alert">🟢 ESTADO NORMAL: Tráfico regular.</div>
+      </div>
+      <!-- Controles -->
+      <div class="sim-controls">
+        <div class="control-group">
+          <label>1. Estudiantes (Hora) <span class="val-badge" id="lbl-users">1000</span></label>
+          <input type="range" id="slider-users" min="1000" max="15000" step="500" value="1000">
+        </div>
+        <div class="control-group">
+          <label>2. Tasa de F5 (Pánico) <span class="val-badge" id="lbl-f5">Normal (1x)</span></label>
+          <input type="range" id="slider-f5" min="1" max="5" step="1" value="1">
+        </div>
+        <div class="control-group" style="background: #f8fafc; padding: 10px; border-radius: 4px; border: 1px solid var(--border-light);">
+          <label>3. Reutilizar puertos <span class="val-badge" id="lbl-fix">Off</span></label>
+          <input type="range" id="slider-fix" min="0" max="1" step="1" value="0">
+        </div>
+        <button id="btn-auto" class="btn-auto" onclick="playScenario()">▶ Reproducir Escenario</button>
+        <div id="guide-text" style="font-size: 0.9rem; color: var(--una-blue); background: #eff6ff; padding: 10px; border-radius: 4px; border: 1px solid #bfdbfe; margin-top: 10px;">
+          Observa el estado de la red.
         </div>
       </div>
     </div>
@@ -468,38 +388,37 @@
     <div class="layout-3col">
       <div class="card">
         <h3>1. Tuning del Kernel (Capa 4)</h3>
-        <p style="font-size: 1.05rem;">Ajustes en los parámetros <code>sysctl</code> del servidor Linux para la capa TCP:</p>
-        <div class="code-box" style="font-size: 0.9rem; padding: 12px;">
+        <p>Ajustes en el servidor Linux para la capa TCP:</p>
+        <div class="code-box">
           net.ipv4.tcp_tw_reuse = 1<br>
           net.ipv4.ip_local_port_range = 1024 65000
         </div>
-        <p style="font-size: 1rem; margin-top: 15px;">Permite reciclar sockets en <code>TIME_WAIT</code> de forma segura (con Timestamps) y expande el rango de puertos efímeros disponibles.</p>
+        <p>Permite reciclar sockets en <code>TIME_WAIT</code> de forma segura y expande el rango de puertos disponibles.</p>
       </div>
       <div class="card">
         <h3>2. Balanceo de Carga L4/L7</h3>
-        <p style="font-size: 1.05rem;">La solución arquitectónica definitiva:</p>
-        <ul style="font-size: 1rem;">
+        <p>La solución arquitectónica definitiva:</p>
+        <ul>
           <li>Implementar Proxies Inversos (Nginx / HAProxy).</li>
-          <li>En lugar de que un solo Servidor asuma todo el impacto, se distribuye la tabla de estados TCP entre un cluster de múltiples máquinas.</li>
+          <li>Distribuir la tabla de estados TCP entre un cluster de múltiples máquinas.</li>
         </ul>
       </div>
       <div class="card" style="background: var(--una-blue); border: none;">
         <h3 style="color: var(--una-gold);">3. Solución Administrativa</h3>
-        <p style="color: #f1f5f9; font-size: 1.05rem;">Dado que ~15,000 alumnos dependen de la red y la tecnología tiene límites matemáticos finitos, para evitar el estrés de las 12:00 AM se debe implementar <b>Matrícula Escalonada</b>: dividir el acceso por facultades o semestres en distintos bloques horarios, aplanando la curva de peticiones TCP.</p>
+        <p style="color: #f1f5f9;">Dado que la tecnología tiene límites matemáticos finitos, para evitar el estrés de las 12:00 AM se debe implementar <b>Matrícula Escalonada</b>: dividir el acceso por facultades en distintos bloques horarios, aplanando la curva de peticiones TCP.</p>
       </div>
     </div>
   </div>
 
   <!-- Controles de Footer -->
   <div class="footer-controls">
-    <div class="branding">ADMINISTRACIÓN DE REDES • INGENIERÍA INFORMÁTICA • UNA PUNO</div>
-    <div style="display: flex; gap: 12px; align-items: center;">
-      <!-- BOTÓN PANTALLA COMPLETA -->
+    <div class="branding">REDES • INGENIERÍA INFORMÁTICA • UNA PUNO</div>
+    <div class="btn-nav-group">
       <button id="fs-btn" class="btn-nav btn-fs" onclick="toggleFullScreen()" title="Alternar Pantalla Completa">
         ⛶ Pantalla Completa
       </button>
       <button class="btn-nav" onclick="prevSlide()">← Atrás</button>
-      <button class="btn-nav" onclick="nextSlide()" style="background: var(--una-blue); color: white; border: none;">Siguiente Diapositiva →</button>
+      <button class="btn-nav" onclick="nextSlide()" style="background: var(--una-blue); color: white; border: none;">Siguiente →</button>
     </div>
   </div>
 </div>
@@ -508,49 +427,35 @@
   // --- FUNCIÓN PANTALLA COMPLETA ---
   function toggleFullScreen() {
     const deck = document.getElementById("deck");
-    const fsBtn = document.getElementById("fs-btn");
-
-    if (!document.fullscreenElement) {
-      if (deck.requestFullscreen) {
-        deck.requestFullscreen();
-      } else if (deck.webkitRequestFullscreen) { /* Safari */
-        deck.webkitRequestFullscreen();
-      } else if (deck.msRequestFullscreen) { /* IE11 */
-        deck.msRequestFullscreen();
-      }
+    if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+      if (deck.requestFullscreen) { deck.requestFullscreen(); } 
+      else if (deck.webkitRequestFullscreen) { deck.webkitRequestFullscreen(); } 
+      else if (deck.msRequestFullscreen) { deck.msRequestFullscreen(); }
     } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.webkitExitFullscreen) { /* Safari */
-        document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) { /* IE11 */
-        document.msExitFullscreen();
-      }
+      if (document.exitFullscreen) { document.exitFullscreen(); } 
+      else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); } 
+      else if (document.msExitFullscreen) { document.msExitFullscreen(); }
     }
   }
 
   document.addEventListener("fullscreenchange", function() {
     const fsBtn = document.getElementById("fs-btn");
-    if (document.fullscreenElement) {
+    if (document.fullscreenElement || document.webkitFullscreenElement) {
       fsBtn.innerHTML = "🗗 Salir Pantalla Completa";
     } else {
       fsBtn.innerHTML = "⛶ Pantalla Completa";
     }
   });
 
-
-  // --- CONTROL DE NAVEGACIÓN DE DIAPOSITIVAS ---
+  // --- CONTROL DE NAVEGACIÓN ---
   const slides = document.querySelectorAll('.slide');
   const progressBar = document.getElementById('progress');
   let currentSlide = 0;
 
   function updateSlides() {
     slides.forEach((slide, index) => {
-      if (index === currentSlide) {
-        slide.classList.add('active');
-      } else {
-        slide.classList.remove('active');
-      }
+      if (index === currentSlide) slide.classList.add('active');
+      else slide.classList.remove('active');
     });
     const progress = (currentSlide / (slides.length - 1)) * 100;
     progressBar.style.width = `${progress}%`;
@@ -560,17 +465,15 @@
   function prevSlide() { if (currentSlide > 0) { currentSlide--; updateSlides(); } }
 
   document.addEventListener('keydown', (e) => {
-    // Evitar avanzar slides si se usa el slider
     if(e.target.tagName === 'INPUT' && e.target.type === 'range') return;
-    
     if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
     if (e.key === 'ArrowLeft') prevSlide();
   });
   updateSlides();
 
-  // --- LÓGICA DEL SIMULADOR INTEGRADO ---
+  // --- LÓGICA DEL SIMULADOR ---
   const MAX_PORTS = 28000;
-  const VISUAL_DOTS = 400; // Cuadrícula visual 400 puntos
+  const VISUAL_DOTS = 400; 
 
   const sliderUsers = document.getElementById('slider-users');
   const sliderF5 = document.getElementById('slider-f5');
@@ -612,24 +515,17 @@
     lblF5.innerText = f5Text[f5Level];
     lblFix.innerText = fixActive ? "ON" : "Off";
 
-    // ~1.5 sockets per user to simulate the load scale accurately towards 15k
     let estConns = Math.floor(users * 1.5);
-    // TIME_WAIT multiplier
     let waitConns = Math.floor(estConns * (f5Level * 0.7));
-
-    if (fixActive) { waitConns = Math.floor(waitConns * 0.1); } // Solución aplicada
+    if (fixActive) waitConns = Math.floor(waitConns * 0.1); 
 
     let totalDemand = estConns + waitConns;
     let droppedConns = 0;
     
     if (totalDemand > MAX_PORTS) {
       droppedConns = totalDemand - MAX_PORTS;
-      if (waitConns > MAX_PORTS) {
-        waitConns = MAX_PORTS;
-        estConns = 0; 
-      } else {
-        estConns = MAX_PORTS - waitConns;
-      }
+      if (waitConns > MAX_PORTS) { waitConns = MAX_PORTS; estConns = 0; } 
+      else { estConns = MAX_PORTS - waitConns; }
     }
 
     let freeConns = MAX_PORTS - (estConns + waitConns);
@@ -646,81 +542,65 @@
     let dotsWait = Math.floor(pctWait * VISUAL_DOTS);
     
     dots.forEach((dot, index) => {
-      dot.style.background = '#10b981'; // Libre (Verde)
+      dot.style.background = '#10b981'; 
       if (droppedConns > 0 && index >= (VISUAL_DOTS - Math.min(60, Math.floor((droppedConns/5000)*VISUAL_DOTS)))) {
-        dot.style.background = '#ef4444'; // Dropped (Rojo)
+        dot.style.background = '#ef4444'; 
       } else if (index < dotsWait) {
-        dot.style.background = '#f59e0b'; // TIME_WAIT (Naranja)
+        dot.style.background = '#f59e0b'; 
       } else if (index < (dotsWait + dotsEst)) {
-        dot.style.background = '#3b82f6'; // ESTABLISHED (Azul)
+        dot.style.background = '#3b82f6'; 
       }
     });
 
     if (fixActive) {
-      guideText.innerHTML = "<b>Solución Aplicada:</b> El sistema reutiliza los puertos de forma automática. Los bloqueos naranjas desaparecen, dejando espacio verde para que los ~15,000 alumnos entren.";
+      guideText.innerHTML = "<b>Solución Aplicada:</b> El sistema reutiliza los puertos de forma automática. Los bloqueos desaparecen y los ~15k alumnos pueden entrar.";
       simAlert.style.background = "#f0fdf4"; simAlert.style.color = "#166534"; simAlert.style.borderColor = "#bbf7d0";
-      simAlert.innerText = "✅ SISTEMA OPTIMIZADO: El servidor recicla los puertos efímeros rápidamente. No hay colapso.";
-    } 
-    else if (droppedConns > 0) {
-      guideText.innerHTML = "<b>El Colapso:</b> La tabla de Capa 4 está llena de basura en estado TIME_WAIT (naranja). Al no haber puertos libres, el servidor rechaza automáticamente cualquier alumno nuevo (Timeouts).";
+      simAlert.innerText = "✅ SISTEMA OPTIMIZADO: No hay colapso.";
+    } else if (droppedConns > 0) {
+      guideText.innerHTML = "<b>El Colapso:</b> La tabla está llena de basura en TIME_WAIT (naranja). Al no haber puertos, el servidor rechaza alumnos (Rojo).";
       simAlert.style.background = "#fef2f2"; simAlert.style.color = "#b91c1c"; simAlert.style.borderColor = "#fecaca";
-      simAlert.innerText = "🔴 PORT EXHAUSTION: Capacidad de Capa 4 excedida. Nuevas peticiones rechazadas.";
-    } 
-    else if (waitConns > estConns && users > 3000) {
-      guideText.innerHTML = "<b>El problema del F5:</b> Los alumnos que abortan la carga generan que los puertos lógicos se congelen (naranja). El servidor empieza a quedarse sin puertos efímeros disponibles.";
+      simAlert.innerText = "🔴 PORT EXHAUSTION: Capacidad de Capa 4 excedida. Timeouts.";
+    } else if (waitConns > estConns && users > 3000) {
+      guideText.innerHTML = "<b>El problema del F5:</b> Los alumnos generan congelamiento de puertos lógicos (naranja). El servidor sufre.";
       simAlert.style.background = "#fffbeb"; simAlert.style.color = "#b45309"; simAlert.style.borderColor = "#fde68a";
-      simAlert.innerText = "🟠 ALERTA: La desesperación (F5) está congelando los puertos del servidor en TIME_WAIT.";
-    } 
-    else {
-      guideText.innerHTML = "Día normal o poco tráfico. Observamos muchos puertos verdes (libres) y los puertos azules (alumnos) fluyen tranquilamente sin saturar el sistema.";
+      simAlert.innerText = "🟠 ALERTA: La desesperación (F5) congela puertos en TIME_WAIT.";
+    } else {
+      guideText.innerHTML = "Estado regular. Puertos libres abundantes. Todo fluye bien.";
       simAlert.style.background = "#f0fdf4"; simAlert.style.color = "#166534"; simAlert.style.borderColor = "#bbf7d0";
-      simAlert.innerText = "🟢 ESTADO NORMAL: Tráfico regular. Hay recursos lógicos de sobra.";
+      simAlert.innerText = "🟢 ESTADO NORMAL: Tráfico regular.";
     }
   }
 
-  // --- AUTOMATIZACIÓN DE LA SIMULACIÓN ---
   const sleep = ms => new Promise(r => setTimeout(r, ms));
 
   async function playScenario() {
     btnAuto.disabled = true;
-    btnAuto.innerText = "Reproduciendo Animación...";
+    btnAuto.innerText = "Animación en curso...";
     
-    // Reset
     sliderUsers.value = 1000; sliderF5.value = 1; sliderFix.value = 0; calculateSimulation();
     sliderUsers.disabled = true; sliderF5.disabled = true; sliderFix.disabled = true;
 
-    await sleep(1500);
-    
-    // 1. Llegan las 12:00 AM (Suben usuarios a 15k)
-    for(let i=1000; i<=15000; i+=1000) {
-      sliderUsers.value = i;
-      calculateSimulation();
-      await sleep(100);
-    }
-
-    await sleep(2000);
-
-    // 2. Empieza el F5
-    for(let i=1; i<=5; i++) {
-      sliderF5.value = i;
-      calculateSimulation();
-      await sleep(1000);
-    }
-
-    btnAuto.innerText = "Colapso activo... (Aprovecha para explicar)";
-    await sleep(6000);
-
-    // 3. Aplicar Solución
-    btnAuto.innerText = "Activando reutilización de puertos...";
     await sleep(1000);
-    sliderFix.value = 1;
-    calculateSimulation();
-
-    await sleep(3000);
     
-    // Restaurar
+    for(let i=1000; i<=15000; i+=1000) {
+      sliderUsers.value = i; calculateSimulation(); await sleep(80);
+    }
+    await sleep(1500);
+
+    for(let i=1; i<=5; i++) {
+      sliderF5.value = i; calculateSimulation(); await sleep(800);
+    }
+    
+    btnAuto.innerText = "Explicando colapso...";
+    await sleep(5000);
+
+    btnAuto.innerText = "Aplicando solución...";
+    await sleep(1000);
+    sliderFix.value = 1; calculateSimulation();
+    
+    await sleep(2000);
     btnAuto.disabled = false;
-    btnAuto.innerText = "▶ Reproducir Escenario Automático";
+    btnAuto.innerText = "▶ Reproducir Escenario";
     sliderUsers.disabled = false; sliderF5.disabled = false; sliderFix.disabled = false;
   }
 
