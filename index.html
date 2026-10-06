@@ -281,7 +281,7 @@
         <div style="border-top: 1px solid var(--border-light); padding-top: 1.5rem;">
           <h3 style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px;">Equipo de Investigación</h3>
           <p style="margin: 0; font-weight: 700; color: var(--una-blue); font-size: 1.3rem;">
-            Alex Arias R. &nbsp;•&nbsp; Raul Chura C. &nbsp;•&nbsp; Antony Flores N.
+            Antony Flores N.;•&nbsp;Alex Arias R. &nbsp;•&nbsp; Raul Chura C. &nbsp
           </p>
         </div>
       </div>
@@ -312,7 +312,7 @@
         <div class="highlight-box">
           A las <b>12:00 AM en punto</b>, miles de estudiantes intentan ingresar simultáneamente. La Capa 4 del servidor recibe una avalancha masiva y debe procesar un <b>Three-Way Handshake (SYN ➔ SYN-ACK ➔ ACK)</b> por cada alumno.
         </div>
-        <p><b>El Comportamiento de Estrés (F5):</b> Ante la menor lentitud, el estudiante asume un cuelgue y presiona F5. Esto genera ráfagas masivas de nuevos paquetes SYN, multiplicando el tráfico lógico exponencialmente.</p>
+        <p><b>El Comportamiento de Estrés (F5):</b> Ante la menor lentitud, el estudiante asume un cuelgue y recarga la pagina. Esto genera ráfagas masivas de nuevos paquetes SYN, multiplicando el tráfico lógico exponencialmente.</p>
       </div>
     </div>
   </div>
@@ -351,7 +351,7 @@
           <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Demanda de la población web (~15k).</p>
         </div>
         <div class="control-group">
-          <label>2. Tasa de F5 (Pánico) <span class="val-badge" id="lbl-f5">Normal (1x)</span></label>
+          <label>2. Tasa de F5 (Recarga de Pagina) <span class="val-badge" id="lbl-f5">Normal (1x)</span></label>
           <input type="range" id="slider-f5" min="1" max="5" step="1" value="1">
           <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Recargas que envían sockets a TIME_WAIT.</p>
         </div>
@@ -396,7 +396,7 @@
 
 <!-- Controles de Footer -->
   <div class="footer-controls">
-    <div class="branding">ADMINISTRACIÓN DE REDES • INGENIERÍA INFORMÁTICA • UNA PUNO</div>
+    <div class="branding">ADMINISTRACIÓN DE REDES • INGENIERÍA ESTADÍSTICA E INFORMÁTICA • UNA PUNO</div>
     <div style="display: flex; gap: 12px;">
       <button class="btn-nav" onclick="prevSlide()">← Atrás</button>
       <button class="btn-nav" onclick="nextSlide()" style="background: var(--una-blue); color: white; border: none;">Siguiente Diapositiva →</button>
